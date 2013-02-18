@@ -1,0 +1,8 @@
+
+public class WCServerApp {
+	
+	public static void main(String[] args) {
+		WCServer = new WCServer();
+	}
+
+}
