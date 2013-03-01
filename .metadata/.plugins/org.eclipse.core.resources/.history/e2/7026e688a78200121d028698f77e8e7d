@@ -1,0 +1,30 @@
+package Controllers;
+
+import java.net.Socket;
+
+import Exceptions.QueryProblemException;
+import Network.QueryHandler;
+
+public class ClientHandler implements Runnable {
+	
+	private Socket mSocket;
+	
+	public ClientHandler(Socket client) {
+		mSocket = client;
+	}
+
+	@Override
+	public void run() {
+		
+		try {
+			QueryHandler qh = new QueryHandler(mSocket);
+			qh.handleQuery();
+			
+		} catch(QueryProblemException e) {
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
+}

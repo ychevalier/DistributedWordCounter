@@ -3,6 +3,8 @@ package Network;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import Controllers.ClientHandler;
 import System.Config;
 
 public class WCServer {
@@ -20,10 +22,10 @@ public class WCServer {
 
 	public void launch() {
 		try {
-			mServerSocket = new ServerSocket(mPort);
+			mServerSocket = new ServerSocket(mPort); 
 			while (true) {
 				Socket client = mServerSocket.accept();
-				Thread t = new Thread(new QueryHandler(client));
+				Thread t = new Thread(new ClientHandler(client));
 			    t.start();
 			}
 		} catch (IOException e) {

@@ -1,0 +1,96 @@
+package Model;
+
+import java.util.Map;
+import Network.Protocol;
+
+import Exceptions.InvalidQueryException;
+
+public class Query {
+	
+	private String mFilename;
+	
+	private String mFilePath;
+
+	private String mResultIP;
+	
+	private int mResultPort;
+	
+	private int mFileSize;
+
+	public Query(String filename, String filePath, String resultIP,
+			int resultPort, int fileSize) {
+		super();
+		this.mFilename = filename;
+		this.mFilePath = filePath;
+		this.mResultIP = resultIP;
+		this.mResultPort = resultPort;
+		this.mFileSize = fileSize;
+	}
+	
+	public Query(Map<String, String> params) throws InvalidQueryException {
+		String tmp;
+		tmp = params.get(Protocol.CLIENT_FILE_NAME);
+		if(tmp == null || tmp.isEmpty()) {
+			throw new InvalidQueryException();
+		}
+		
+		this.mFilename = tmp;
+		//this.mFilePath = params.get(Protocol.CLIENT_FILE_);
+		 = params.get(Protocol.CLIENT_RESULT_IP);
+		tmp = params.get(Protocol.CLIENT_FILE_NAME);
+		if(tmp == null || tmp.isEmpty()) {
+			throw new InvalidQueryException();
+		}
+		this.mResultIP = tmp;
+		this.mResultPort = params.get(Protocol.CLIENT_RESULT_PORT);
+		tmp = params.get(Protocol.CLIENT_FILE_NAME);
+		if(tmp == null || tmp.isEmpty()) {
+			throw new InvalidQueryException();
+		}
+		this.mFileSize = params.get(Protocol.CLIENT_FILE_SIZE);
+		tmp = params.get(Protocol.CLIENT_FILE_NAME);
+		if(tmp == null || tmp.isEmpty()) {
+			throw new InvalidQueryException();
+		}
+	}
+
+	public String getmFilename() {
+		return mFilename;
+	}
+
+	public void setmFilename(String mFilename) {
+		this.mFilename = mFilename;
+	}
+
+	public String getmFilePath() {
+		return mFilePath;
+	}
+
+	public void setmFilePath(String mFilePath) {
+		this.mFilePath = mFilePath;
+	}
+
+	public String getmResultIP() {
+		return mResultIP;
+	}
+
+	public void setmResultIP(String mResultIP) {
+		this.mResultIP = mResultIP;
+	}
+
+	public int getmResultPort() {
+		return mResultPort;
+	}
+
+	public void setmResultPort(int mResultPort) {
+		this.mResultPort = mResultPort;
+	}
+
+	public int getmFileSize() {
+		return mFileSize;
+	}
+
+	public void setmFileSize(int mFileSize) {
+		this.mFileSize = mFileSize;
+	}
+}

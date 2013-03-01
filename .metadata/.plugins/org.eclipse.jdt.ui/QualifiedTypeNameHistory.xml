@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="System.Protocol"/>
+<fullyQualifiedTypeName name="Network.Protocol"/>
+<fullyQualifiedTypeName name="Network.WCServer"/>
+<fullyQualifiedTypeName name="java.lang.ref.WeakReference"/>
+<fullyQualifiedTypeName name="java.util.Map"/>
+</qualifiedTypeNameHistroy>

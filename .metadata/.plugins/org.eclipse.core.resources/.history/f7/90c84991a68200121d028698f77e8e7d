@@ -1,0 +1,32 @@
+package Controllers;
+
+import java.io.IOException;
+import java.lang.ref.WeakReference;
+import java.net.Socket;
+
+public class ClientHandler implements Runnable {
+	
+	private WeakReference<Socket> mSocket;
+	
+	public ClientHandler(Socket client) throws IOException {
+		mSocket = new WeakReference<Socket>(client);
+	}
+
+	@Override
+	public void run() {
+		
+		if(mSocket == null
+				|| mSocket.get() == null) {
+			return;
+		}
+		
+		try {
+			QueryHandler qh = new QueryHandler(mSocket.get());
+		} catch(Exception e) {
+			
+		}
+		
+	}
+
+
+}

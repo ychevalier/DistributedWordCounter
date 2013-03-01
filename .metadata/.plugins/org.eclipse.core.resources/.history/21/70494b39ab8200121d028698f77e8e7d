@@ -1,0 +1,18 @@
+import Network.WCServer;
+
+
+public class WCServerApp {
+	
+	public static int FILE_COUNTER = 0;
+
+    public static synchronized void incrementFileCount() {
+        count++;
+    }
+	
+	public static void main(String[] args) {
+		WCServer server = new WCServer();
+		
+		server.launch();
+	}
+
+}

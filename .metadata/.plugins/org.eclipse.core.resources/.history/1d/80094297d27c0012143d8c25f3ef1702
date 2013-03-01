@@ -1,0 +1,17 @@
+package Model;
+
+public class Query {
+	
+	private String mFilename;
+	
+	private String mFilePath;
+
+	private String mResultIP;
+	
+	private int mResultPort;
+	
+	private int mFileSize;
+	
+	
+	
+}
