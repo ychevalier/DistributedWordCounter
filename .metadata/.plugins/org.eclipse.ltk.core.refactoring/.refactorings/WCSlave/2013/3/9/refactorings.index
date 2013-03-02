@@ -8,3 +8,11 @@
 1362230563536	Move compilation units
 1362230594188	Delete element
 1362230620878	Delete element
+1362233081914	Rename type 'InvalidQueryException'
+1362233091911	Rename type 'Query'
+1362233101894	Rename type 'QueryHandler'
+1362233112839	Rename type 'WCServer'
+1362233287647	Rename type 'MasterHandler'
+1362236452411	Copy compilation unit
+1362240212792	Rename type 'PartHandler'
+1362240236578	Rename type 'JobHandler'

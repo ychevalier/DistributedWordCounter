@@ -1,6 +1,6 @@
 package Application;
 
-import Network.FromMaster.WCServer;
+import Network.FromMaster.PartServer;
 
 
 public class WCSlaveApp {
@@ -12,7 +12,7 @@ public class WCSlaveApp {
     }
 	
 	public static void main(String[] args) {
-		WCServer server = new WCServer();
+		PartServer server = new PartServer();
 		
 		System.out.println("### Slave ###");
 		

@@ -1,0 +1,5 @@
+package Executers;
+
+public class WordCounter implements Runnable {
+
+}

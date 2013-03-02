@@ -1,0 +1,20 @@
+package Controllers;
+
+import java.net.Socket;
+
+public class ResultHandler implements Runnable {
+
+	private Socket mSocket;
+	
+	public ResultHandler(Socket client) {
+		mSocket = client;
+	}
+	
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+}

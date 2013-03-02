@@ -7,7 +7,7 @@ import java.net.Socket;
 import Controllers.JobHandler;
 import System.Config;
 
-public class QueryServer {
+public class QueryServer implements Runnable {
 
 	private ServerSocket mServerSocket;
 	private int mPort;
@@ -20,7 +20,8 @@ public class QueryServer {
 		mPort = port;
 	}
 
-	public void launch() {
+	@Override
+	public void run() {
 		try {
 			mServerSocket = new ServerSocket(mPort); 
 			while (true) {

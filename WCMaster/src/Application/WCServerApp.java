@@ -14,8 +14,11 @@ public class WCServerApp {
 	public static void main(String[] args) {
 		
 		System.out.println("### Master ###");
-		QueryServer server = new QueryServer();
-		server.launch();
+		
+		System.out.println("Launching Query Server");
+		Thread tQ = new Thread(new QueryServer());
+	    tQ.start();
+	    
 	}
 
 }

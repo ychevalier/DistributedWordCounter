@@ -1,0 +1,36 @@
+package Network.FromSlave;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+import Controllers.JobHandler;
+import System.Config;
+
+public class ResultServer {
+	
+	private ServerSocket mServerSocket;
+	private int mPort;
+
+	public ResultServer() {
+		mPort = Config.MASTER_RESULT_PORT;
+	}
+
+	public ResultServer(int port) {
+		mPort = port;
+	}
+
+	public void launch() {
+		try {
+			mServerSocket = new ServerSocket(mPort); 
+			while (true) {
+				Socket client = mServerSocket.accept();
+				Thread t = new Thread(new SlaveHandler(client));
+			    t.start();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+}

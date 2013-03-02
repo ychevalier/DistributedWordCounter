@@ -1,0 +1,74 @@
+package Model;
+
+import java.util.Map;
+
+import Application.WCServerApp;
+import Exceptions.InvalidQueryException;
+import Exceptions.InvalidResultFSException;
+import Network.Protocols.ProtocolQuery;
+import Network.Protocols.ProtocolResultFS;
+import System.Config;
+
+public class ResultFS {
+	
+	private String mPartName;
+
+	private int mResultSize;
+	
+	public ResultFS(Map<String, String> params) throws InvalidResultFSException {
+		String tmp;
+		
+		// File Name.
+		tmp = params.get(ProtocolQuery.CLIENT_FILE_NAME);
+		if(tmp == null || tmp.isEmpty()) {
+			throw new InvalidResultFSException();
+		}
+		
+		this.mPartname = tmp;
+		
+		// File Path.
+		this.mFilePath = Config.FILE_PATH + this.mFilename + '_' + WCServerApp.IncrementFileCount() + ".txt";
+		
+		// Result IP.
+		tmp = params.get(ProtocolQuery.CLIENT_RESULT_IP);
+		if(tmp == null || tmp.isEmpty()) {
+			throw new InvalidResultFSException();
+		}
+		this.mResultIP = tmp;
+		
+		// Result Port.
+		tmp = params.get(ProtocolQuery.CLIENT_RESULT_PORT);
+		if(tmp == null || tmp.isEmpty()) {
+			throw new InvalidResultFSException();
+		}
+		int tmpInt = 0;
+		try {
+			tmpInt = Integer.decode(tmp);
+		} catch(NumberFormatException e) {
+			throw new InvalidResultFSException();
+		}
+		this.mResultPort = tmpInt;
+		
+		// Result Size.
+		tmp = params.get(ProtocolResultFS.SLAVE_RESULT_SIZE);
+		if(tmp == null || tmp.isEmpty()) {
+			throw new InvalidResultFSException();
+		}
+		tmpInt = 0;
+		try {
+			tmpInt = Integer.decode(tmp);
+		} catch(NumberFormatException e) {
+			throw new InvalidResultFSException();
+		}
+		this.mFileSize = tmpInt;
+	}
+
+	public String getPartName() {
+		return mPartName;
+	}
+
+	public int getResultSize() {
+		return mResultSize;
+	}
+
+}

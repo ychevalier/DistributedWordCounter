@@ -3,7 +3,8 @@ package Controllers;
 import java.net.Socket;
 
 import Model.Query;
-import Network.FromClient.QueryHandler;
+import Network.FromClient.QueryAnalyzer;
+import Network.FromSlave.ResultServer;
 import Network.ToSlave.PartSender;
 
 public class JobHandler implements Runnable {
@@ -19,7 +20,7 @@ public class JobHandler implements Runnable {
 		
 		System.out.println("Handling a new Client");
 		
-		QueryHandler qh = new QueryHandler(mSocket);
+		QueryAnalyzer qh = new QueryAnalyzer(mSocket);
 		Query aQuery = qh.handleQuery();
 		
 		if(aQuery == null) {
@@ -29,11 +30,19 @@ public class JobHandler implements Runnable {
 		
 		System.out.println("Received a correct query");
 		
+		int portForThisJob = 1234;
+		
+		System.out.println("Launching Result Server on port : " + portForThisJob);
+		Thread tR = new Thread(new ResultServer(portForThisJob));
+		tR.start();
+		
 		System.out.println("Sending a part to a new slave");
 		PartSender ps = new PartSender();
-		ps.connect("localhost", 8123);
+		ps.connect("localhost", 8888);
 		//ps.checkAvailability();
-		ps.sendFile(aQuery.getFilename(), aQuery.getFilePath(), "localhost", 1235, 1234);
+		ps.sendFile(aQuery.getFilename(), aQuery.getFilePath(), "localhost", portForThisJob, 2);
 		ps.disconnect();
+		
+		
 	}
 }
