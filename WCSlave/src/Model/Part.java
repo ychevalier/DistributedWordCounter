@@ -9,7 +9,9 @@ import Exceptions.InvalidPartException;
 
 public class Part {
 	
-	private String mPartName;
+	private String mFileName;
+	
+	private int mPartNumber;
 	
 	private String mPartPath;
 
@@ -24,16 +26,29 @@ public class Part {
 	public Part(Map<String, String> params) throws InvalidPartException {
 		String tmp;
 		
-		// Part Name.
-		tmp = params.get(ProtocolPart.MASTER_PART_NAME);
+		// File Name.
+		tmp = params.get(ProtocolPart.MASTER_FILE_NAME);
 		if(tmp == null || tmp.isEmpty()) {
 			throw new InvalidPartException();
 		}
 		
-		this.mPartName = tmp;
+		this.mFileName = tmp;
+		
+		// Part Number.
+		tmp = params.get(ProtocolPart.MASTER_PART_NUMBER);
+		if(tmp == null || tmp.isEmpty()) {
+			throw new InvalidPartException();
+		}
+		int tmpInt = 0;
+		try {
+			tmpInt = Integer.decode(tmp);
+		} catch(NumberFormatException e) {
+			throw new InvalidPartException();
+		}
+		this.mPartNumber = tmpInt;
 		
 		// Part Path.
-		this.mPartPath = Config.FILE_PATH + this.mPartName + '_' + WCSlaveApp.IncrementFileCount();
+		this.mPartPath = Config.FILE_PATH + this.mFileName + this.mPartNumber + '_' + WCSlaveApp.IncrementFileCount();
 		
 		// Result IP.
 		tmp = params.get(ProtocolPart.MASTER_RESULT_IP);
@@ -47,7 +62,7 @@ public class Part {
 		if(tmp == null || tmp.isEmpty()) {
 			throw new InvalidPartException();
 		}
-		int tmpInt = 0;
+		tmpInt = 0;
 		try {
 			tmpInt = Integer.decode(tmp);
 		} catch(NumberFormatException e) {
@@ -83,8 +98,12 @@ public class Part {
 		
 	}
 
-	public String getPartName() {
-		return mPartName;
+	public String getFileName() {
+		return mFileName;
+	}
+	
+	public int getPartNumber() {
+		return mPartNumber;
 	}
 
 	public String getPartPath() {

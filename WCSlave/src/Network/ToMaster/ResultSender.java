@@ -32,11 +32,11 @@ public class ResultSender {
 		}
 	}
 	
-	public boolean sendResult(String partName, String filepath) {
+	public boolean sendResult(String fileName, int i, String filepath) {
 		
 		if(!mIsConnected
-				|| partName == null 
-				|| partName.isEmpty()
+				|| fileName == null 
+				|| fileName.isEmpty()
 				|| filepath == null
 				|| filepath.isEmpty()) {
 			
@@ -53,9 +53,13 @@ public class ResultSender {
 		
 		query.append(ProtocolResultFS.SLAVE_SEND_RESULT);
 		query.append(ProtocolResultFS.COMMON_END_LINE);
-		query.append(ProtocolResultFS.SLAVE_PART_NAME);
+		query.append(ProtocolResultFS.SLAVE_FILE_NAME);
 		query.append(ProtocolResultFS.COMMON_SEPARATOR);
-		query.append(partName);
+		query.append(fileName);
+		query.append(ProtocolResultFS.COMMON_END_LINE);
+		query.append(ProtocolResultFS.SLAVE_PART_NUMBER);
+		query.append(ProtocolResultFS.COMMON_SEPARATOR);
+		query.append(String.valueOf(i));
 		query.append(ProtocolResultFS.COMMON_END_LINE);
 		query.append(ProtocolResultFS.SLAVE_RESULT_SIZE);
 		query.append(ProtocolResultFS.COMMON_SEPARATOR);

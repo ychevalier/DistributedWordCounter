@@ -30,7 +30,7 @@ public class PartHandler implements Runnable {
 		}
 		
 		System.out.println("Part is good, processing...");
-		String outputPath = Config.RESULT_PATH + aQuery.getPartName() + "Part";
+		String outputPath = Config.RESULT_PATH + "trucPart";
 		
 		// TODO Set a thread which send repeated alive messages to master.
 		
@@ -40,7 +40,7 @@ public class PartHandler implements Runnable {
 		System.out.println("Sending a result to master at " + aQuery.getResultIP() + ":" + aQuery.getResultPort());
 		ResultSender ps = new ResultSender();
 		ps.connect(aQuery.getResultIP(), aQuery.getResultPort());
-		ps.sendResult(aQuery.getPartName(), outputPath);
+		ps.sendResult(aQuery.getFileName(), aQuery.getPartNumber(), outputPath);
 		ps.disconnect();
 	}
 }

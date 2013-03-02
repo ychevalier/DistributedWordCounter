@@ -29,10 +29,10 @@ public class Query {
 			throw new InvalidQueryException();
 		}
 		
-		this.mFilename = tmp;
+		this.mFilename = tmp + '_' + WCServerApp.IncrementFileCount();
 		
 		// File Path.
-		this.mFilePath = Config.FILE_PATH + this.mFilename + '_' + WCServerApp.IncrementFileCount() + ".txt";
+		this.mFilePath = Config.FILE_PATH + this.mFilename;
 		
 		// Result IP.
 		tmp = params.get(ProtocolQuery.CLIENT_RESULT_IP);

@@ -17,9 +17,10 @@ public class ProtocolPart extends Protocol {
 		public static final String MASTER_CLOSE_FAILURE = "NEVERMIND";
 		
 		// Master Sends part.
-		public static final int MASTER_MAX_ARG_NUMBER = 5;
+		public static final int MASTER_MAX_ARG_NUMBER = 6;
 		public static final String MASTER_SEND_PART = "PART";
-		public static final String MASTER_PART_NAME = "name";
+		public static final String MASTER_FILE_NAME = "name";
+		public static final String MASTER_PART_NUMBER = "part";
 		public static final String MASTER_PART_SIZE = "size";
 		public static final String MASTER_RESULT_IP = "result_ip";
 		public static final String MASTER_RESULT_PORT = "result_port";

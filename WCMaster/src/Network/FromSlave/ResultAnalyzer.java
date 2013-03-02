@@ -2,6 +2,7 @@ package Network.FromSlave;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
@@ -9,8 +10,8 @@ import java.util.HashMap;
 
 import Exceptions.InvalidResultFSException;
 import Model.ResultFS;
-import Network.Protocols.Protocol;
 import Network.Protocols.ProtocolResultFS;
+import System.Utils;
 
 public class ResultAnalyzer {
 	
@@ -32,7 +33,7 @@ private Socket mSocket;
 					new InputStreamReader(mSocket.getInputStream()));
 			DataOutputStream mOutput = new DataOutputStream(mSocket.getOutputStream());
 			slaveQuery = mInput.readLine();
-			System.out.println(slaveQuery);
+
 			if (slaveQuery != null
 					&& slaveQuery.equals(ProtocolResultFS.SLAVE_SEND_RESULT)) {
 				
@@ -71,9 +72,11 @@ private Socket mSocket;
 					char[] content = new char[result.getResultSize() + 1];
 					mInput.read(content, 0, content.length);
 					
-					System.out.println("This is the content: " + new String(content));
-					
-					// TODO???	
+					File f = Utils.CreateFile(result.getResultPath());
+					if(f == null) {
+						isSuccess = false;
+					}
+					Utils.WriteInFile(f, content, result.getResultSize());
 					
 				} catch(InvalidResultFSException e) {
 					isSuccess = false;

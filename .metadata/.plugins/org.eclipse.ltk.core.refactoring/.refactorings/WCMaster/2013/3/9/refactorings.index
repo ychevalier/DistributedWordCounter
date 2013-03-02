@@ -23,3 +23,4 @@
 1362236194343	Rename type 'QueryHandler'
 1362236205327	Rename type 'ResultHandler'
 1362236583066	Copy compilation unit
+1362245910486	Rename method 'sendFile'

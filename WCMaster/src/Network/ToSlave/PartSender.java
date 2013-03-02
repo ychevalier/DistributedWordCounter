@@ -53,7 +53,7 @@ public class PartSender {
 		}
 	}
 	
-	public boolean sendFile(String filename, String filepath, String resultIP, int resultPort, int timeout) {
+	public boolean sendPart(String filename, int partNumber, String filepath, String resultIP, int resultPort, int timeout) {
 		
 		if(!mIsConnected
 				|| filename == null 
@@ -75,9 +75,13 @@ public class PartSender {
 		
 		query.append(ProtocolPart.MASTER_SEND_PART);
 		query.append(ProtocolPart.COMMON_END_LINE);
-		query.append(ProtocolPart.MASTER_PART_NAME);
+		query.append(ProtocolPart.MASTER_FILE_NAME);
 		query.append(ProtocolPart.COMMON_SEPARATOR);
 		query.append(filename);
+		query.append(ProtocolPart.COMMON_END_LINE);
+		query.append(ProtocolPart.MASTER_PART_NUMBER);
+		query.append(ProtocolPart.COMMON_SEPARATOR);
+		query.append(String.valueOf(partNumber));
 		query.append(ProtocolPart.COMMON_END_LINE);
 		query.append(ProtocolPart.MASTER_PART_SIZE);
 		query.append(ProtocolPart.COMMON_SEPARATOR);

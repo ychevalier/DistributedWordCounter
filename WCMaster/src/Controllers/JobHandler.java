@@ -40,7 +40,7 @@ public class JobHandler implements Runnable {
 		PartSender ps = new PartSender();
 		ps.connect("localhost", 8888);
 		//ps.checkAvailability();
-		ps.sendFile(aQuery.getFilename(), aQuery.getFilePath(), "localhost", portForThisJob, 2);
+		ps.sendPart(aQuery.getFilename(), 42, aQuery.getFilePath(), "localhost", portForThisJob, 2);
 		ps.disconnect();
 		
 		
