@@ -1,0 +1,109 @@
+package Network;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+import java.util.HashMap;
+
+import Exceptions.InvalidQueryException;
+import Model.Query;
+import Network.Protocol;
+import System.Utils;
+
+public class QueryHandler {
+	
+	private Socket mSocket;
+	
+	public QueryHandler(Socket client) {
+		mSocket = client;
+	}
+
+	public Query handleQuery() {	
+			
+		Query result = null;
+		String masterQuery;
+		HashMap<String, String> aMap = new HashMap<String, String>();
+		boolean isSuccess = true;
+
+		try {
+			BufferedReader mInput = new BufferedReader(
+					new InputStreamReader(mSocket.getInputStream()));
+			DataOutputStream mOutput = new DataOutputStream(mSocket.getOutputStream());
+			masterQuery = mInput.readLine();
+
+			if (masterQuery != null
+					&& masterQuery.equals(Protocol.MASTER_SEND_PART)) {
+
+				// Go through arguments.
+				for (int i = 0; i < Protocol.MASTER_MAX_ARG_NUMBER; i++) {
+					masterQuery = mInput.readLine();
+					if (masterQuery != null && !masterQuery.isEmpty()) {
+						String[] line = masterQuery.split("\\"
+								+ Protocol.COMMON_SEPARATOR);
+						
+						// If it doesn't fit the protocol.
+						if (line.length != 2) {
+							isSuccess = false;
+							break;
+						}
+						
+						// Otherwise Get the arguments.
+						aMap.put(line[0], line[1]);
+					} else {
+						// Finish! Let's start to read the file. see below.
+						break;
+					}
+				}
+				
+			} else {
+				isSuccess = false;
+			}
+
+			if (isSuccess) {
+				try {
+					result = new Query(aMap);
+					
+					char[] content = new char[result.getPartSize()];
+					mInput.read(content, 0, result.getPartSize());
+					
+					File f = Utils.CreateFile(result.getPartPath());
+					if(f == null) {
+						isSuccess = false;
+					}
+					Utils.WriteInFile(f, content, result.getPartSize());	
+					
+				} catch(InvalidQueryException e) {
+					isSuccess = false;
+				}
+				
+			}
+			
+			
+			
+			if(isSuccess) {
+				mOutput.writeBytes(Protocol.SLAVE_OK
+						+ Protocol.COMMON_END_LINE);
+			} else {
+				mOutput.writeBytes(Protocol.SLAVE_KO
+						+ Protocol.COMMON_END_LINE);
+			}
+			
+			// Closing and quitting this client.
+			mOutput.flush();
+			mOutput.close();
+			mInput.close();
+			
+			mSocket.close();
+			
+		} catch (IOException e) {
+			//e.printStackTrace();
+		}
+		
+		
+		return result;
+	}
+
+}

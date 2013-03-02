@@ -1,6 +1,6 @@
 package Application;
 
-import Network.WCServer;
+import Network.FromClient.QueryServer;
 
 
 public class WCServerApp {
@@ -12,8 +12,9 @@ public class WCServerApp {
     }
 	
 	public static void main(String[] args) {
-		WCServer server = new WCServer();
 		
+		System.out.println("### Master ###");
+		QueryServer server = new QueryServer();
 		server.launch();
 	}
 

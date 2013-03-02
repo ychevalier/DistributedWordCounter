@@ -10,29 +10,27 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import System.Config;
-
 public class TCPClient {
 	
 	private static final int MAX_OUTPUT_BUFFER = 2048;
 	
 	private Socket mSocket;
 
-	boolean connect() {	
+	public boolean connect(String ip, int port) {	
 		try {
 			if(mSocket == null) {
-				mSocket = new Socket(Config.MASTER_IP, Config.MASTER_PORT);
+				mSocket = new Socket(ip, port);
 				return true;
 			}
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return false;
 	}
 	
-	void disconnect() {
+	public void disconnect() {
 		if(mSocket != null) {
 			try {
 				mSocket.close();
@@ -42,7 +40,7 @@ public class TCPClient {
 		}
 	}
 	
-	String sendData(String toSend) {
+	public String sendData(String toSend) {
 		String response = null;
 		
 		try {
@@ -61,7 +59,7 @@ public class TCPClient {
 		return response;
 	}
 	
-	String sendFile(String header, File file, String footer) {
+	public String sendFile(String header, File file, String footer) {
 		
 		String response = null;
 
@@ -88,7 +86,7 @@ public class TCPClient {
 		    inFromServer.close();
 		    fileInputStream.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		
 		return response;

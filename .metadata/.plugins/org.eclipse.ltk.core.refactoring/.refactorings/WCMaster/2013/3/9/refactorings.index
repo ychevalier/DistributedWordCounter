@@ -4,3 +4,16 @@
 1362168506629	Copy compilation unit
 1362168515103	Delete element
 1362168540674	Move compilation unit
+1362173707949	Copy packages
+1362224015131	Move compilation units
+1362224026116	Move compilation unit
+1362224033314	Move compilation unit
+1362224205864	Rename type 'SendToSlave'
+1362224670700	Delete element
+1362224746094	Rename type 'WCServer'
+1362224928853	Move compilation unit
+1362225486365	Rename type 'Protocol'
+1362230341133	Rename type 'ClientHandler'
+1362230578304	Rename package 'Network.Protocol'
+1362230588913	Copy compilation units
+1362231270681	Copy compilation units

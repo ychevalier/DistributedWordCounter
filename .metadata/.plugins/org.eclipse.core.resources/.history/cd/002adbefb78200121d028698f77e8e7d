@@ -1,0 +1,20 @@
+package Application;
+
+import Network.WCServer;
+
+
+public class WCSlaveApp {
+	
+	static int mFileCounter = 0;
+
+    public static synchronized int IncrementFileCount() {
+    	return mFileCounter++;
+    }
+	
+	public static void main(String[] args) {
+		WCServer server = new WCServer();
+		
+		server.launch();
+	}
+
+}

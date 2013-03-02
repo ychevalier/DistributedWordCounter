@@ -1,6 +1,5 @@
 INDEX VERSION 1.126+/Users/ychevalier/Code/Java/SimpleWordCounter/.metadata/.plugins/org.eclipse.jdt.core
 3000285004.index
-3765136423.index
 770573466.index
 1819685514.index
 3954040986.index

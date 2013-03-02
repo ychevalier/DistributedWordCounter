@@ -1,0 +1,107 @@
+package Network.ToSlave;
+
+import java.io.File;
+
+import Network.Protocol;
+import Network.TCPClient;
+import System.Utils;
+
+public class PartSender {
+	
+	private boolean mIsConnected;
+	private TCPClient mNetClient;
+	private String mSlaveIp;
+	private int mSlavePort;
+	
+	public PartSender(String slaveIp, int slavePort) {
+		mIsConnected = false;
+		mNetClient = new TCPClient();
+		mSlaveIp = slaveIp;
+		mSlavePort = slavePort;
+	}
+	
+	public boolean checkAvailability() {
+		if(!mIsConnected) {
+			if(!mNetClient.connect(mSlaveIp, mSlavePort)) {
+				return false;
+			}
+			mIsConnected = true;
+		}
+		
+		final StringBuilder toSend = new StringBuilder();
+		final String response;
+		
+		toSend.append(Protocol.MASTER_CHECK_AVAILABILITY);
+		toSend.append(Protocol.COMMON_END_LINE);
+		
+		response = mNetClient.sendData(toSend.toString());
+		
+		if(Protocol.SLAVE_OK.equals(response)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean sendFile(String filename, String filepath, String resultIP, int resultPort, int timeout) {
+		
+		if(!mIsConnected) {
+			if(!mNetClient.connect(mSlaveIp, mSlavePort)) {
+				return false;
+			}
+			mIsConnected = true;
+		} else if(filename == null 
+				|| filename.isEmpty()
+				|| filepath == null
+				|| filepath.isEmpty()
+				|| !Utils.checkIP(resultIP)) {
+			
+			return false;
+		}
+		
+		File fileToSend = new File(filepath);
+		if(!fileToSend.exists()) {
+			return false;
+		}
+		long fileSize = fileToSend.length();
+		
+		final StringBuilder query = new StringBuilder();
+		
+		query.append(Protocol.MASTER_SEND_PART);
+		query.append(Protocol.COMMON_END_LINE);
+		query.append(Protocol.MASTER_PART_NAME);
+		query.append(Protocol.COMMON_SEPARATOR);
+		query.append(filename);
+		query.append(Protocol.COMMON_END_LINE);
+		query.append(Protocol.MASTER_PART_SIZE);
+		query.append(Protocol.COMMON_SEPARATOR);
+		query.append(String.valueOf(fileSize));
+		query.append(Protocol.COMMON_END_LINE);
+		query.append(Protocol.MASTER_RESULT_IP);
+		query.append(Protocol.COMMON_SEPARATOR);
+		query.append(resultIP);
+		query.append(Protocol.COMMON_END_LINE);
+		query.append(Protocol.MASTER_RESULT_PORT);
+		query.append(Protocol.COMMON_SEPARATOR);
+		query.append(String.valueOf(resultPort));
+		query.append(Protocol.COMMON_END_LINE);
+		query.append(Protocol.MASTER_RESULT_PORT);
+		query.append(Protocol.COMMON_SEPARATOR);
+		query.append(String.valueOf(timeout));
+		query.append(Protocol.COMMON_END_LINE);
+		query.append(Protocol.COMMON_END_LINE);
+		
+		final StringBuilder footer = new StringBuilder(Protocol.COMMON_END_LINE);
+		
+		final String response = mNetClient.sendFile(query.toString(), fileToSend, footer.toString());
+		
+		mNetClient.disconnect();
+		mIsConnected = false;
+		
+		if(Protocol.MASTER_OK.equals(response)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}

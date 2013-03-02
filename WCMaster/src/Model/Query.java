@@ -1,7 +1,8 @@
 package Model;
 
 import java.util.Map;
-import Network.Protocol;
+
+import Network.Protocols.ProtocolQuery;
 import System.Config;
 
 import Application.WCServerApp;
@@ -18,22 +19,12 @@ public class Query {
 	private int mResultPort;
 	
 	private int mFileSize;
-
-	public Query(String filename, String filePath, String resultIP,
-			int resultPort, int fileSize) {
-		super();
-		this.mFilename = filename;
-		this.mFilePath = filePath;
-		this.mResultIP = resultIP;
-		this.mResultPort = resultPort;
-		this.mFileSize = fileSize;
-	}
 	
 	public Query(Map<String, String> params) throws InvalidQueryException {
 		String tmp;
 		
 		// File Name.
-		tmp = params.get(Protocol.CLIENT_FILE_NAME);
+		tmp = params.get(ProtocolQuery.CLIENT_FILE_NAME);
 		if(tmp == null || tmp.isEmpty()) {
 			throw new InvalidQueryException();
 		}
@@ -44,14 +35,14 @@ public class Query {
 		this.mFilePath = Config.FILE_PATH + this.mFilename + '_' + WCServerApp.IncrementFileCount() + ".txt";
 		
 		// Result IP.
-		tmp = params.get(Protocol.CLIENT_RESULT_IP);
+		tmp = params.get(ProtocolQuery.CLIENT_RESULT_IP);
 		if(tmp == null || tmp.isEmpty()) {
 			throw new InvalidQueryException();
 		}
 		this.mResultIP = tmp;
 		
 		// Result Port.
-		tmp = params.get(Protocol.CLIENT_RESULT_PORT);
+		tmp = params.get(ProtocolQuery.CLIENT_RESULT_PORT);
 		if(tmp == null || tmp.isEmpty()) {
 			throw new InvalidQueryException();
 		}
@@ -64,7 +55,7 @@ public class Query {
 		this.mResultPort = tmpInt;
 		
 		// File Size.
-		tmp = params.get(Protocol.CLIENT_FILE_SIZE);
+		tmp = params.get(ProtocolQuery.CLIENT_FILE_SIZE);
 		if(tmp == null || tmp.isEmpty()) {
 			throw new InvalidQueryException();
 		}
@@ -77,43 +68,23 @@ public class Query {
 		this.mFileSize = tmpInt;
 	}
 
-	public String getmFilename() {
+	public String getFilename() {
 		return mFilename;
 	}
 
-	public void setmFilename(String mFilename) {
-		this.mFilename = mFilename;
-	}
-
-	public String getmFilePath() {
+	public String getFilePath() {
 		return mFilePath;
 	}
 
-	public void setmFilePath(String mFilePath) {
-		this.mFilePath = mFilePath;
-	}
-
-	public String getmResultIP() {
+	public String getResultIP() {
 		return mResultIP;
 	}
 
-	public void setmResultIP(String mResultIP) {
-		this.mResultIP = mResultIP;
-	}
-
-	public int getmResultPort() {
+	public int getResultPort() {
 		return mResultPort;
 	}
 
-	public void setmResultPort(int mResultPort) {
-		this.mResultPort = mResultPort;
-	}
-
-	public int getmFileSize() {
+	public int getFileSize() {
 		return mFileSize;
-	}
-
-	public void setmFileSize(int mFileSize) {
-		this.mFileSize = mFileSize;
 	}
 }

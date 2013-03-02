@@ -1,0 +1,89 @@
+package Model;
+
+import java.util.Map;
+import Network.Protocol;
+import System.Config;
+
+import Application.WCSlaveApp;
+import Exceptions.InvalidQueryException;
+
+public class Query {
+	
+	private String mPartName;
+	
+	private String mFilePath;
+
+	private String mResultIP;
+	
+	private int mResultPort;
+	
+	private int mFileSize;
+	
+	public Query(Map<String, String> params) throws InvalidQueryException {
+		String tmp;
+		
+		// Part Name.
+		tmp = params.get(Protocol.MASTER_PART_NAME);
+		if(tmp == null || tmp.isEmpty()) {
+			throw new InvalidQueryException();
+		}
+		
+		this.mPartName = tmp;
+		
+		// File Path.
+		this.mFilePath = Config.FILE_PATH + this.mPartName + '_' + WCSlaveApp.IncrementFileCount();
+		
+		// Result IP.
+		tmp = params.get(Protocol.MASTER_RESULT_IP);
+		if(tmp == null || tmp.isEmpty()) {
+			throw new InvalidQueryException();
+		}
+		this.mResultIP = tmp;
+		
+		// Result Port.
+		tmp = params.get(Protocol.MASTER_RESULT_PORT);
+		if(tmp == null || tmp.isEmpty()) {
+			throw new InvalidQueryException();
+		}
+		int tmpInt = 0;
+		try {
+			tmpInt = Integer.decode(tmp);
+		} catch(NumberFormatException e) {
+			throw new InvalidQueryException();
+		}
+		this.mResultPort = tmpInt;
+		
+		// File Size.
+		tmp = params.get(Protocol.MASTER_FILE_SIZE);
+		if(tmp == null || tmp.isEmpty()) {
+			throw new InvalidQueryException();
+		}
+		tmpInt = 0;
+		try {
+			tmpInt = Integer.decode(tmp);
+		} catch(NumberFormatException e) {
+			throw new InvalidQueryException();
+		}
+		this.mFileSize = tmpInt;
+	}
+
+	public String getPartName() {
+		return mPartName;
+	}
+
+	public String getFilePath() {
+		return mFilePath;
+	}
+
+	public String getResultIP() {
+		return mResultIP;
+	}
+
+	public int getResultPort() {
+		return mResultPort;
+	}
+
+	public int getFileSize() {
+		return mFileSize;
+	}
+}

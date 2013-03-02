@@ -1,0 +1,9 @@
+package snippet;
+
+public class Snippet {
+	public static void main(String[] args) {
+		mOutput.writeBytes(Protocol.MASTER_OK
+									+ Protocol.COMMON_END_LINE);
+	}
+}
+
