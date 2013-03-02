@@ -57,6 +57,7 @@ public class QueryHandler {
 						break;
 					}
 				}
+				
 			} else {
 				isSuccess = false;
 			}
@@ -76,6 +77,7 @@ public class QueryHandler {
 					
 				} catch(InvalidQueryException e) {
 					isSuccess = false;
+					System.out.println("##### he???");
 				}
 				
 			}

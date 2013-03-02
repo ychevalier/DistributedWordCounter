@@ -91,7 +91,7 @@ public class PartSender {
 		query.append(ProtocolPart.COMMON_SEPARATOR);
 		query.append(String.valueOf(resultPort));
 		query.append(ProtocolPart.COMMON_END_LINE);
-		query.append(ProtocolPart.MASTER_LIFE_TIMEOUT);
+		query.append(ProtocolPart.MASTER_RESULT_PORT);
 		query.append(ProtocolPart.COMMON_SEPARATOR);
 		query.append(String.valueOf(timeout));
 		query.append(ProtocolPart.COMMON_END_LINE);

@@ -32,7 +32,7 @@ public class JobHandler implements Runnable {
 		System.out.println("Sending a part to a new slave");
 		PartSender ps = new PartSender();
 		ps.connect("localhost", 8123);
-		//ps.checkAvailability();
+		ps.checkAvailability();
 		ps.sendFile(aQuery.getFilename(), aQuery.getFilePath(), "localhost", 1235, 1234);
 		ps.disconnect();
 	}

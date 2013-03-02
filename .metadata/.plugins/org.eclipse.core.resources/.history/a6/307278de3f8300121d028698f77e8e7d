@@ -57,6 +57,7 @@ public class QueryHandler {
 						break;
 					}
 				}
+				
 			} else {
 				isSuccess = false;
 			}
@@ -79,6 +80,8 @@ public class QueryHandler {
 				}
 				
 			}
+			
+			
 			
 			if(isSuccess) {
 				mOutput.writeBytes(ProtocolQuery.MASTER_OK

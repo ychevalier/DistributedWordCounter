@@ -27,6 +27,7 @@ public class QueryHandler {
 		String clientQuery;
 		HashMap<String, String> aMap = new HashMap<String, String>();
 		boolean isSuccess = true;
+		boolean isCheckAvailabiltyMode = false;
 
 		try {
 			BufferedReader mInput = new BufferedReader(
@@ -80,7 +81,7 @@ public class QueryHandler {
 				
 			}
 			
-			if(isSuccess) {
+			if(isSuccess || isCheckAvailabiltyMode) {
 				mOutput.writeBytes(ProtocolQuery.MASTER_OK
 						+ ProtocolQuery.COMMON_END_LINE);
 			} else {

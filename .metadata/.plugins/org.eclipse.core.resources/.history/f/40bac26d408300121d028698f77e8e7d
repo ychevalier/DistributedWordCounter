@@ -47,8 +47,6 @@ public class WCQueryClient {
 		
 		response = mNetClient.sendData(toSend.toString());
 		
-		//System.out.println("### This is the response : " + response);
-		
 		if(ProtocolQuery.MASTER_OK.equals(response)) {
 			return true;
 		} else {

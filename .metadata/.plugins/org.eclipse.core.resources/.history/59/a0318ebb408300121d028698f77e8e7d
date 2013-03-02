@@ -57,6 +57,9 @@ public class QueryHandler {
 						break;
 					}
 				}
+			} else if(clientQuery != null
+					&& clientQuery.equals(ProtocolQuery.CLIENT_CHECK_AVAILABILITY)) {
+				
 			} else {
 				isSuccess = false;
 			}

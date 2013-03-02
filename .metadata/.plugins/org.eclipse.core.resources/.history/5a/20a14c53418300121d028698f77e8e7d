@@ -54,7 +54,7 @@ public class TCPClient {
 	        outToServer.close();
 	        inFromServer.close();
 		} catch (IOException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		} 
 		return response;
 	}
@@ -86,7 +86,7 @@ public class TCPClient {
 		    inFromServer.close();
 		    fileInputStream.close();
 		} catch (IOException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 		
 		return response;

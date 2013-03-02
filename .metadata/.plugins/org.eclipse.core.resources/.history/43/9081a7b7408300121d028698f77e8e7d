@@ -57,6 +57,7 @@ public class QueryHandler {
 						break;
 					}
 				}
+				
 			} else {
 				isSuccess = false;
 			}

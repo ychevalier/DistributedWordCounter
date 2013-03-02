@@ -99,6 +99,10 @@ public class PartSender {
 		
 		final StringBuilder footer = new StringBuilder(ProtocolPart.COMMON_END_LINE);
 		
+		System.out.println("This is what I send : ");
+		System.out.println(query.toString());
+		System.out.println(fileToSend);
+		
 		final String response = mNetClient.sendFile(query.toString(), fileToSend, footer.toString());
 		
 		if(ProtocolPart.SLAVE_OK.equals(response)) {
