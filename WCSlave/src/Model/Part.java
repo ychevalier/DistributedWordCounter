@@ -48,7 +48,7 @@ public class Part {
 		this.mPartNumber = tmpInt;
 		
 		// Part Path.
-		this.mPartPath = Config.FILE_PATH + this.mFileName + this.mPartNumber + '_' + WCSlaveApp.IncrementFileCount();
+		this.mPartPath = Config.FILE_PATH + this.mFileName + this.mPartNumber + '_' + WCSlaveApp.getNextFileCount();
 		
 		// Result IP.
 		tmp = params.get(ProtocolPart.MASTER_RESULT_IP);

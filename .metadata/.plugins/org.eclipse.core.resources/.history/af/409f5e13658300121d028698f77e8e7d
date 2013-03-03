@@ -1,0 +1,51 @@
+package Executers;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class WordCounter {
+	
+	private String mInputFile;
+	private String mOutputFile;
+	
+	public WordCounter(String inputFile, String outputFile) {
+		mInputFile = inputFile;
+		mOutputFile = outputFile;
+	}
+
+	public void count() {
+		Map<String, Integer> newIndex = new TreeMap<String, Integer>();
+		
+		Scanner sc2 = null;
+	    try {
+	        sc2 = new Scanner(new File(mInputFile));
+	    } catch (FileNotFoundException e) {
+	        e.printStackTrace();  
+	    }
+	    while (sc2.hasNextLine()) {
+	            Scanner s2 = new Scanner(sc2.nextLine());
+	        while (s2.hasNext()) {
+	            String s = s2.next();
+	            if (newIndex.containsKey(s)) {
+					newIndex.put(s, newIndex.get(s) + 1);
+				} else {
+					newIndex.put(s, 1);
+				}
+	        }
+	    }
+	    
+	    for(Map.Entry<String, Integer> e : index.entrySet()) {
+			System.out.println(e.getKey() + ':' + e.getValue());
+		}
+		// Open Input
+		// Read Input
+		
+		// Process it
+		
+		// Write in Output
+	}
+
+}

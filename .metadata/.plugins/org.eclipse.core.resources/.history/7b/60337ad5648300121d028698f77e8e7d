@@ -1,0 +1,48 @@
+package Executers;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class WordCounter {
+	
+	private String mInputFile;
+	private String mOutputFile;
+	
+	public WordCounter(String inputFile, String outputFile) {
+		mInputFile = inputFile;
+		mOutputFile = outputFile;
+	}
+
+	public void count() {
+		Map<String, Integer> newIndex = new TreeMap<String, Integer>(index1);
+		for(Map.Entry<String, Integer> e : index2.entrySet()) {
+			
+		}	
+		Scanner sc2 = null;
+	    try {
+	        sc2 = new Scanner(new File(mInputFile));
+	    } catch (FileNotFoundException e) {
+	        e.printStackTrace();  
+	    }
+	    while (sc2.hasNextLine()) {
+	            Scanner s2 = new Scanner(sc2.nextLine());
+	        boolean b;
+	        while (b = s2.hasNext()) {
+	            String s = s2.next();
+	            if (newIndex.containsKey(s)) {
+					newIndex.put(s, s.getValue() + newIndex.get(s));
+				} else {
+					newIndex.put(e.getKey(), e.getValue());
+				}
+	        }
+	    }
+		// Open Input
+		// Read Input
+		
+		// Process it
+		
+		// Write in Output
+	}
+
+}

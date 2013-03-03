@@ -22,6 +22,7 @@ public class PartServer {
 
 	public void launch() {
 		try {
+			System.out.println("Launching Slave Server on Port " + mPort);
 			mServerSocket = new ServerSocket(mPort); 
 			while (true) {
 				Socket client = mServerSocket.accept();
@@ -29,7 +30,8 @@ public class PartServer {
 			    t.start();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Error : Stopping Slave Server");
+			//e.printStackTrace();
 		}
 	}
 

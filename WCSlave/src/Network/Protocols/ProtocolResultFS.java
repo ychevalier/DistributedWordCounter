@@ -16,5 +16,7 @@ public class ProtocolResultFS extends Protocol {
 	// Master answers.
 	public static final String MASTER_OK = "OK";
 	public static final String MASTER_KO = "KO";
+	
+	public static final char WORD_COUNT_SEPARATOR = ' ';
 
 }

@@ -24,3 +24,5 @@
 1362236205327	Rename type 'ResultHandler'
 1362236583066	Copy compilation unit
 1362245910486	Rename method 'sendFile'
+1362247169264	Rename method 'IncrementFileCount'
+1362247179842	Rename method 'IncrementResultPortCount'

@@ -1,0 +1,13 @@
+package Model;
+
+import java.util.Map;
+
+public class WordList {
+	
+	private Map<String, Integer> mWordCount;
+	
+	public WordList() {
+		mWordCount = new HashMap<String, Integer>();
+	}
+
+}

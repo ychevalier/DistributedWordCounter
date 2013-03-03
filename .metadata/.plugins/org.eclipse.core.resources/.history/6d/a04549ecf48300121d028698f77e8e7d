@@ -1,0 +1,21 @@
+package Model;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public abstract class SyncMap<K, M> {
+	
+	protected Map<K, M> mMap;
+	
+	public SyncMap() {
+		mMap = new HashMap<K, M>();
+	}
+	
+	public abstract void addEntry(K key, M value);
+
+	public void addEntry(String word, int number) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

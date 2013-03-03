@@ -1,0 +1,16 @@
+package Model;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class WordList<String, Integer> extends SyncMap {
+	
+	public synchronized void addEntry(String word, int number) {
+		if (mMap.containsKey(word)) {
+			mMap.put(word, mMap.get(word) + number);
+		} else {
+			mMap.put(word, number);
+		}
+	}
+
+}

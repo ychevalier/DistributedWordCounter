@@ -1,0 +1,30 @@
+package Application;
+
+import Network.FromClient.QueryServer;
+
+
+public class WCServerApp {
+	
+	static int mFileCounter = 0;
+
+    public static synchronized int IncrementFileCount() {
+    	return mFileCounter++;
+    }
+    
+    static int mResultPortCounter = 2222;
+    
+    public static synchronized int IncrementResultPortCount() {
+    	return mResultPortCounter++;
+    }
+	
+	public static void main(String[] args) {
+		
+		System.out.println("### Master ###");
+		
+		System.out.println("Launching Query Server");
+		Thread tQ = new Thread(new QueryServer());
+	    tQ.start();
+	    
+	}
+
+}

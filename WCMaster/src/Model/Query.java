@@ -5,7 +5,7 @@ import java.util.Map;
 import Network.Protocols.ProtocolQuery;
 import System.Config;
 
-import Application.WCServerApp;
+import Application.WCSMasterApp;
 import Exceptions.InvalidQueryException;
 
 public class Query {
@@ -29,7 +29,7 @@ public class Query {
 			throw new InvalidQueryException();
 		}
 		
-		this.mFilename = tmp + '_' + WCServerApp.IncrementFileCount();
+		this.mFilename = tmp + '_' + WCSMasterApp.getFileCount();
 		
 		// File Path.
 		this.mFilePath = Config.FILE_PATH + this.mFilename;

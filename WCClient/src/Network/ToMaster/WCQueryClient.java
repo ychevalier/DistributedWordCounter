@@ -5,7 +5,7 @@ import java.io.File;
 import Network.TCPClient;
 import Network.Protocols.ProtocolQuery;
 import System.Config;
-import Utils.Utils;
+import System.Utils;
 
 public class WCQueryClient {
 	

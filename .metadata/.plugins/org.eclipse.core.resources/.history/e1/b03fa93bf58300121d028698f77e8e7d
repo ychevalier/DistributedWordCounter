@@ -1,0 +1,35 @@
+package Network.FromSlave;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+import Controllers.ResultHandler;
+import Model.WordList;
+
+public class ResultServer implements Runnable {
+	
+	private ServerSocket mServerSocket;
+	private WordList mWordList;
+	private int mPort;
+
+	public ResultServer(int port, WordList wordList) {
+		mPort = port;
+		mWordList = wordList;
+	}
+
+	@Override
+	public void run() {
+		try {
+			mServerSocket = new ServerSocket(mPort); 
+			while (true) {
+				Socket client = mServerSocket.accept();
+				Thread t = new Thread(new ResultHandler(client, mWordList));
+			    t.start();
+			}
+		} catch (IOException e) {
+			//e.printStackTrace();
+		}
+	}
+
+}

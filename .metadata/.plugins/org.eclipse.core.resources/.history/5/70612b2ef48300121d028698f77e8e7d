@@ -1,0 +1,20 @@
+package Model;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class WordList<String, Integer> extends SyncMap {
+	
+	public WordList() {
+		mMap = new HashMap<String, Integer>();
+	}
+	
+	public synchronized void addEntry(String word, int number) {
+		if (mWordCount.containsKey(word)) {
+			mWordCount.put(word, mWordCount.get(word) + number);
+		} else {
+			mWordCount.put(word, number);
+		}
+	}
+
+}
