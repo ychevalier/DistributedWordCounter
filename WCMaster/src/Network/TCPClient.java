@@ -33,10 +33,11 @@ public class TCPClient {
 	public void disconnect() {
 		if(mSocket != null) {
 			try {
-				mSocket.close();
+				mSocket.close();	
 			} catch (IOException e) {
 				//e.printStackTrace();
 			}
+			mSocket = null;
 		}
 	}
 	

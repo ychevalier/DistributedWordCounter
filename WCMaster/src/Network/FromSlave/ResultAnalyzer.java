@@ -15,7 +15,7 @@ import System.Utils;
 
 public class ResultAnalyzer {
 	
-private Socket mSocket;
+	private Socket mSocket;
 	
 	public ResultAnalyzer(Socket client) {
 		mSocket = client;
