@@ -19,11 +19,11 @@ public class ResultServer implements Runnable {
 	public void run() {
 		try {
 			mServerSocket = new ServerSocket(mPort); 
-			while (true) {
+			//while (true) {
 				Socket client = mServerSocket.accept();
 				Thread t = new Thread(new ResultHandler(client));
 			    t.start();
-			}
+			//}
 		} catch (IOException e) {
 			//e.printStackTrace();
 		}

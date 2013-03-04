@@ -15,7 +15,7 @@ public class ResultHandler implements Runnable {
 	
 	@Override
 	public void run() {
-		System.out.println("Handling a new Result from Slave");
+		System.out.println("Handling a new Result from Master");
 		
 		ResultAnalyzer ra = new ResultAnalyzer(mSocket);
 		ResultFM aResultFS = ra.handleResult();

@@ -20,20 +20,12 @@ public class WCClientApp {
 		
 		System.out.println("Starting Client");
 		
-		if(client.connect()) {
-			System.out.println("Client is Connected to Master");
+		if(client.connect(Config.MASTER_IP, Config.MASTER_PORT)) {
+			System.out.println("Client is Connected to Master " + Config.MASTER_IP + ':' + Config.MASTER_PORT);
 		} else {
 			System.out.println("Unable to Connect");
+			return;
 		}
-		
-		/*
-		if(client.checkAvailability()) {
-			System.out.println("Master is Available");
-			
-		} else {
-			System.out.println("Master is not Available");
-		}
-		*/
 		
 		int portForThisJob;
 
@@ -46,7 +38,7 @@ public class WCClientApp {
 		Thread tR = new Thread(new ResultServer(portForThisJob));
 		tR.start();
 		
-		if(client.sendFile("truc", "machin.txt", "192.168.1.1", 1)) {
+		if(client.sendFile("truc", "machin.txt", "localhost", portForThisJob)) {
 			System.out.println("File Sent with Success");
 			
 		} else {
@@ -54,8 +46,6 @@ public class WCClientApp {
 		}
 		
 		client.disconnect();
-		
-		System.out.println("Closing Client");
 		
 	}
 

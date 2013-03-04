@@ -29,10 +29,10 @@ public class Query {
 			throw new InvalidQueryException();
 		}
 		
-		this.mFilename = tmp + '_' + WCSMasterApp.getFileCount();
+		this.mFilename = tmp;
 		
 		// File Path.
-		this.mFilePath = Config.FILE_PATH + this.mFilename;
+		this.mFilePath = Config.FILE_PATH + this.mFilename + '_' + WCSMasterApp.getFileCount();
 		
 		// Result IP.
 		tmp = params.get(ProtocolQuery.CLIENT_RESULT_IP);

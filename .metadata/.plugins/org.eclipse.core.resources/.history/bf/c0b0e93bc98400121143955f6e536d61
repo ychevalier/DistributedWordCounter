@@ -1,0 +1,7 @@
+package Listeners;
+
+public interface PartProcessedListener {
+	
+	public void partProcessed(String filename);
+
+}

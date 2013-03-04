@@ -65,15 +65,18 @@ public class PartAnalyzer {
 			if (isSuccess) {
 				try {
 					result = new Part(aMap);
-					
-					char[] content = new char[result.getPartSize() + 1];
-					mInput.read(content, 0, content.length);
-					
-					File f = Utils.CreateFile(result.getPartPath());
-					if(f == null) {
+					if(result.getPartSize() != 0) {
+						char[] content = new char[result.getPartSize() + 1];
+						mInput.read(content, 0, content.length);
+						
+						File f = Utils.CreateFile(result.getPartPath());
+						if(f == null) {
+							isSuccess = false;
+						}
+						Utils.WriteInFile(f, content, result.getPartSize());
+					} else {
 						isSuccess = false;
 					}
-					Utils.WriteInFile(f, content, result.getPartSize());	
 					
 				} catch(InvalidPartException e) {
 					isSuccess = false;

@@ -68,15 +68,20 @@ private Socket mSocket;
 				try {
 					result = new ResultFM(aMap);
 					
-					// +1 to get the last character...
-					char[] content = new char[result.getResultSize() + 1];
-					mInput.read(content, 0, content.length);
+					if(result.getResultSize() != 0) {
 					
-					File f = Utils.CreateFile(result.getResultPath());
-					if(f == null) {
+						// +1 to get the last character...
+						char[] content = new char[result.getResultSize() + 1];
+						mInput.read(content, 0, content.length);
+						
+						File f = Utils.CreateFile(result.getResultPath());
+						if(f == null) {
+							isSuccess = false;
+						}
+						Utils.WriteInFile(f, content, result.getResultSize());
+					} else {
 						isSuccess = false;
 					}
-					Utils.WriteInFile(f, content, result.getResultSize());
 					
 				} catch(InvalidResultFMException e) {
 					isSuccess = false;

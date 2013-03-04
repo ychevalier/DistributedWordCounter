@@ -66,16 +66,19 @@ public class QueryAnalyzer {
 			if (isSuccess) {
 				try {
 					result = new Query(aMap);
-					
-					// +1 to get the last character...
-					char[] content = new char[result.getFileSize() + 1];
-					mInput.read(content, 0, content.length);
-					
-					File f = Utils.CreateFile(result.getFilePath());
-					if(f == null) {
+					if(result.getFileSize() != 0) {
+						// +1 to get the last character...
+						char[] content = new char[result.getFileSize() + 1];
+						mInput.read(content, 0, content.length);
+						
+						File f = Utils.CreateFile(result.getFilePath());
+						if(f == null) {
+							isSuccess = false;
+						}
+						Utils.WriteInFile(f, content, result.getFileSize());
+					} else {
 						isSuccess = false;
 					}
-					Utils.WriteInFile(f, content, result.getFileSize());	
 					
 				} catch(InvalidQueryException e) {
 					isSuccess = false;

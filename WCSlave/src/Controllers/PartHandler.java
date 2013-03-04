@@ -43,7 +43,7 @@ public class PartHandler implements Runnable {
 			return;
 		}
 		
-		System.out.println("Sending Result to Master at " + aQuery.getResultIP() + ":" + aQuery.getResultPort());
+		System.out.println("Sending Result to Master at " + aQuery.getResultIP() + ':' + aQuery.getResultPort());
 		
 		ResultSender ps = new ResultSender();
 		ps.connect(aQuery.getResultIP(), aQuery.getResultPort());

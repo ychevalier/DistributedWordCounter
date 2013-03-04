@@ -2,15 +2,18 @@ package Controllers;
 
 import java.net.Socket;
 
+import Listeners.PartProcessedListener;
 import Model.ResultFS;
 import Network.FromSlave.ResultAnalyzer;
 
 public class ResultHandler implements Runnable {
 
 	private Socket mSocket;
+	private PartProcessedListener mListener;
 	
-	public ResultHandler(Socket client) {
+	public ResultHandler(Socket client, PartProcessedListener listener) {
 		mSocket = client;
+		mListener = listener;
 	}
 	
 	@Override
@@ -25,6 +28,8 @@ public class ResultHandler implements Runnable {
 			return;
 		}
 		
+		mListener.partProcessed(aResultFS.getPartNumber(), aResultFS.getResultPath());
+
 		System.out.println("Received a correct result");
 	}
 	

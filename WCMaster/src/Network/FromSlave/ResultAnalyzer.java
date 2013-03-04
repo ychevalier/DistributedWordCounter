@@ -67,17 +67,19 @@ private Socket mSocket;
 			if (isSuccess) {
 				try {
 					result = new ResultFS(aMap);
-					
-					// +1 to get the last character...
-					char[] content = new char[result.getResultSize() + 1];
-					mInput.read(content, 0, content.length);
-					
-					File f = Utils.CreateFile(result.getResultPath());
-					if(f == null) {
+					if(result.getResultSize() != 0) {
+						// +1 to get the last character...
+						char[] content = new char[result.getResultSize() + 1];
+						mInput.read(content, 0, content.length);
+						
+						File f = Utils.CreateFile(result.getResultPath());
+						if(f == null) {
+							isSuccess = false;
+						}
+						Utils.WriteInFile(f, content, result.getResultSize());
+					} else {
 						isSuccess = false;
 					}
-					Utils.WriteInFile(f, content, result.getResultSize());
-					
 				} catch(InvalidResultFSException e) {
 					isSuccess = false;
 				}

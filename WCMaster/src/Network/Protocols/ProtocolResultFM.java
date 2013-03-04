@@ -15,5 +15,7 @@ public class ProtocolResultFM extends Protocol {
 	// Client answers.
 	public static final String CLIENT_OK = "OK";
 	public static final String CLIENT_KO = "KO";
+	
+	public static final char WORD_COUNT_SEPARATOR = ' ';
 
 }

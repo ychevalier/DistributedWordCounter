@@ -4,7 +4,6 @@ import java.io.File;
 
 import Network.TCPClient;
 import Network.Protocols.ProtocolQuery;
-import System.Config;
 import System.Utils;
 
 public class WCQueryClient {
@@ -17,9 +16,9 @@ public class WCQueryClient {
 		mNetClient = new TCPClient();
 	}
 	
-	public boolean connect() {
+	public boolean connect(String ip, int port) {
 		if(!mIsConnected) {
-			if(mNetClient == null || !mNetClient.connect(Config.MASTER_IP, Config.MASTER_PORT)) {
+			if(mNetClient == null || !mNetClient.connect(ip, port)) {
 				return false;
 			}
 			mIsConnected = true;
