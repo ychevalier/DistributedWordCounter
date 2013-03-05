@@ -1,0 +1,37 @@
+package Network.FromSlave;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+import Controllers.JobHandler;
+import System.Config;
+
+public class RegisterServer {
+	
+	private ServerSocket mServerSocket;
+	private int mPort;
+
+	public RegisterServer() {
+		mPort = Config.MASTER_PORT;
+	}
+
+	public RegisterServer(int port) {
+		mPort = port;
+	}
+
+	@Override
+	public void run() {
+		try {
+			mServerSocket = new ServerSocket(mPort); 
+			while (true) {
+				Socket client = mServerSocket.accept();
+				Thread t = new Thread(new JobHandler(client));
+			    t.start();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+}

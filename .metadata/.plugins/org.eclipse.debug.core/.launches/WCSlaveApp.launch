@@ -7,6 +7,6 @@
 <listEntry value="1"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="Application.WCSlaveApp"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="1 2 3 4 5 6"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-p 8888 -ma localhost -mp 4646"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="WCSlave"/>
 </launchConfiguration>

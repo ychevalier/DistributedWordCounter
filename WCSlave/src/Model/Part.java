@@ -4,7 +4,6 @@ import java.util.Map;
 import Network.Protocols.ProtocolPart;
 import System.Config;
 
-import Application.WCSlaveApp;
 import Exceptions.InvalidPartException;
 
 public class Part {
@@ -23,7 +22,8 @@ public class Part {
 	
 	private int mTimeout;
 	
-	public Part(Map<String, String> params) throws InvalidPartException {
+	public Part(Map<String, String> params, int jobId) throws InvalidPartException {
+		
 		String tmp;
 		
 		// File Name.
@@ -48,7 +48,7 @@ public class Part {
 		this.mPartNumber = tmpInt;
 		
 		// Part Path.
-		this.mPartPath = Config.FILE_PATH + this.mFileName + this.mPartNumber + '_' + WCSlaveApp.getNextFileCount();
+		this.mPartPath = Config.FILE_PATH + this.mFileName + '_' + this.mPartNumber + '_' + jobId;
 		
 		// Result IP.
 		tmp = params.get(ProtocolPart.MASTER_RESULT_IP);

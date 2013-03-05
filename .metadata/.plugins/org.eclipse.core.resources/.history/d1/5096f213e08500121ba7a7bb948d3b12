@@ -1,0 +1,26 @@
+package Model;
+
+import java.util.Set;
+import java.util.TreeSet;
+
+public class SlaveList {
+	
+	private Set<Slave> mSlaveList;
+	
+	public SlaveList() {
+		mSlaveList = new HashSet<Slave>();
+	}
+	
+	public synchronized void addSlave(Slave s) {
+		mSlaveList.add(s);
+	}
+	
+	public synchronized void removeSlave(Slave s) {
+		mSlaveList.remove(s);
+	}
+	
+	public synchronized boolean isEmpty() {
+		return mSlaveList.isEmpty();
+	}
+
+}

@@ -1,0 +1,43 @@
+package Application;
+
+import Network.FromSlave.RegisterServer;
+import Model.SlaveList;
+import Network.FromClient.QueryServer;
+import System.Config;
+
+public class WCMasterApp {
+	
+	public static SlaveList mSlaveList;
+
+	static int mFileCounter = 0;
+
+	public static synchronized int getFileCount() {
+		return mFileCounter++;
+	}
+
+	static int mResultPortCounter = 0;
+
+	public static synchronized int getResultPortCount() {
+
+		return Config.RESULT_MIN_PORT_NUMBER
+				+ (mResultPortCounter++ % (Config.RESULT_MAX_PORT_NUMBER - Config.RESULT_MIN_PORT_NUMBER));
+	}
+	
+	public static boolean amIReady() {
+		return true;
+	}
+
+	public static void main(String[] args) {
+
+		System.out.println("### Master ###");
+
+		System.out.println("Launching Query Server");
+		Thread tQ = new Thread(new QueryServer());
+		tQ.start();
+		
+		Thread tR = new Thread(new RegisterServer(mSlaveList));
+		tR.start();
+
+	}
+
+}

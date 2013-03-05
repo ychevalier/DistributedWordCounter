@@ -25,6 +25,7 @@ public class PartServer {
 			
 			mServerSocket = new ServerSocket(mPort); 
 			System.out.println("Launching Slave Server on port " + mPort);
+			
 			while (true) {
 				Socket client = mServerSocket.accept();
 				Thread t = new Thread(new PartHandler(client));

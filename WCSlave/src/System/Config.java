@@ -11,5 +11,7 @@ public class Config {
 	
 	public static String FILE_PATH;// = JUNK_PATH + "files_to_process/";
 	public static String RESULT_PATH;// = JUNK_PATH + "processed_files/";
+	
+	public static String MY_IP;
 
 }

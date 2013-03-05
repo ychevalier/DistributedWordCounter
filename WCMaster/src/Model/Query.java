@@ -5,7 +5,6 @@ import java.util.Map;
 import Network.Protocols.ProtocolQuery;
 import System.Config;
 
-import Application.WCSMasterApp;
 import Exceptions.InvalidQueryException;
 
 public class Query {
@@ -20,7 +19,8 @@ public class Query {
 	
 	private int mFileSize;
 	
-	public Query(Map<String, String> params) throws InvalidQueryException {
+	public Query(Map<String, String> params, int jobId) throws InvalidQueryException {
+		
 		String tmp;
 		
 		// File Name.
@@ -32,7 +32,7 @@ public class Query {
 		this.mFilename = tmp;
 		
 		// File Path.
-		this.mFilePath = Config.FILE_PATH + this.mFilename + '_' + WCSMasterApp.getFileCount();
+		this.mFilePath = Config.FILE_PATH + this.mFilename + '_' + jobId;
 		
 		// Result IP.
 		tmp = params.get(ProtocolQuery.CLIENT_RESULT_IP);

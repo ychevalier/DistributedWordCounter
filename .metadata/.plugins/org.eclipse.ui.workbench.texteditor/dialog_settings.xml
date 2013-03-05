@@ -2,24 +2,29 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="243" key="DIALOG_WIDTH"/>
-		<item value="135" key="DIALOG_Y_ORIGIN"/>
+		<item value="130" key="DIALOG_Y_ORIGIN"/>
+		<item value="849" key="DIALOG_X_ORIGIN"/>
 		<item value="379" key="DIALOG_HEIGHT"/>
-		<item value="519" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Lucida Grande|11.0|0|COCOA|1|LucidaGrande" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="isRegEx"/>
 		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wholeword"/>
-		<item value="ProtocolResultFS" key="selection"/>
+		<item value="ProtocolRegister" key="selection"/>
 		<list key="findhistory">
 			<item value="ProtocolQuery"/>
+			<item value="ProtocolResultFS"/>
+			<item value="aQuery"/>
+			<item value="disconnect"/>
 			<item value="ProtocolPart"/>
 			<item value="Protocol"/>
 		</list>
 		<list key="replacehistory">
+			<item value="ProtocolRegister"/>
+			<item value="aPart"/>
 			<item value="ProtocolResultFS"/>
 			<item value="ProtocolQuery"/>
 			<item value="ProtocolPart"/>

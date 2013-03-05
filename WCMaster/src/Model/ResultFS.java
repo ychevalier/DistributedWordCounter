@@ -16,7 +16,7 @@ public class ResultFS {
 
 	private int mResultSize;
 	
-	public ResultFS(Map<String, String> params) throws InvalidResultFSException {
+	public ResultFS(Map<String, String> params, int jobId) throws InvalidResultFSException {
 		String tmp;
 		
 		// File Name.
@@ -40,7 +40,7 @@ public class ResultFS {
 		}
 		this.mPartNumber = tmpInt;
 		
-		this.mResultPath = Config.RESULT_PATH + mFileName + '/' + mPartNumber;
+		this.mResultPath = Config.RESULT_PATH + mFileName + '_' + jobId + '/' + mPartNumber;
 		
 		// Result Size.
 		tmp = params.get(ProtocolResultFS.SLAVE_RESULT_SIZE);

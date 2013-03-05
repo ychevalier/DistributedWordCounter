@@ -13,9 +13,6 @@ public class ProtocolPart extends Protocol {
 	public static final String SLAVE_OK = "OK";
 	public static final String SLAVE_KO = "KO";
 	
-	// Master says Goodbye.
-	public static final String MASTER_CLOSE_FAILURE = "NEVERMIND";
-	
 	// Master Sends part.
 	public static final int MASTER_MAX_ARG_NUMBER = 6;
 	public static final String MASTER_SEND_PART = "PART";

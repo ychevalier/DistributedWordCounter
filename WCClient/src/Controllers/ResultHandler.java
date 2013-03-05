@@ -1,9 +1,11 @@
 package Controllers;
 
+import java.io.IOException;
 import java.net.Socket;
 
 import Model.ResultFM;
 import Network.FromServer.ResultAnalyzer;
+import Network.FromServer.ResultResponse;
 
 public class ResultHandler implements Runnable {
 
@@ -18,9 +20,18 @@ public class ResultHandler implements Runnable {
 		System.out.println("Handling a new Result from Master");
 		
 		ResultAnalyzer ra = new ResultAnalyzer(mSocket);
-		ResultFM aResultFS = ra.handleResult();
+		ResultFM aResultFM = ra.handleResult();
 		
-		if(aResultFS == null) {
+		ResultResponse qr = new ResultResponse(mSocket);
+		boolean response = qr.sendResponse(aResultFM);
+		
+		try {
+			mSocket.close();
+		} catch (IOException e) {
+			//e.printStackTrace();
+		}
+		
+		if (!response) {
 			System.out.println("Received a incorrect result, aborting");
 			return;
 		}

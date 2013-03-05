@@ -1,7 +1,6 @@
 package Network.FromServer;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,23 +25,20 @@ private Socket mSocket;
 		ResultFM result = null;
 		String slaveQuery;
 		HashMap<String, String> aMap = new HashMap<String, String>();
-		boolean isSuccess = true;
+		
 
 		try {
 			BufferedReader mInput = new BufferedReader(
 					new InputStreamReader(mSocket.getInputStream()));
-			DataOutputStream mOutput = new DataOutputStream(mSocket.getOutputStream());
 			slaveQuery = mInput.readLine();
 
 			if (slaveQuery != null
 					&& slaveQuery.equals(ProtocolResultFM.MASTER_SEND_RESULT)) {
-				
-
-				// Go through arguments.
+				boolean isSuccess = true;
+				// Go through argument.
 				for (int i = 0; i < ProtocolResultFM.MASTER_MAX_ARG_NUMBER; i++) {
-					
-					
 					slaveQuery = mInput.readLine();
+					System.out.println("## " + slaveQuery);
 					if (slaveQuery != null && !slaveQuery.isEmpty()) {
 						String[] line = slaveQuery.split("\\"
 								+ ProtocolResultFM.COMMON_SEPARATOR);
@@ -60,55 +56,42 @@ private Socket mSocket;
 						break;
 					}
 				}
-			} else {
-				isSuccess = false;
-			}
-
-			if (isSuccess) {
-				try {
+				
+				if(isSuccess) {
 					result = new ResultFM(aMap);
-					
 					if(result.getResultSize() != 0) {
-					
+						
 						// +1 to get the last character...
 						char[] content = new char[result.getResultSize() + 1];
 						mInput.read(content, 0, content.length);
 						
 						File f = Utils.CreateFile(result.getResultPath());
 						if(f == null) {
-							isSuccess = false;
+							result = null;
+						} else {
+							Utils.WriteInFile(f, content, result.getResultSize());
 						}
-						Utils.WriteInFile(f, content, result.getResultSize());
 					} else {
-						isSuccess = false;
+						result = null;
 					}
-					
-				} catch(InvalidResultFMException e) {
-					isSuccess = false;
 				}
-				
-			}
-			
-			if(isSuccess) {
-				mOutput.writeBytes(ProtocolResultFM.CLIENT_OK
-						+ ProtocolResultFM.COMMON_END_LINE);
+				else {
+					result = null;
+				}
 			} else {
-				mOutput.writeBytes(ProtocolResultFM.CLIENT_KO
-						+ ProtocolResultFM.COMMON_END_LINE);
+				result = null;
 			}
 			
 			// Closing and quitting this client.
-			mOutput.flush();
-			mOutput.close();
-			mInput.close();
-			
-			mSocket.close();
+			mSocket.shutdownInput();
 			
 		} catch (IOException e) {
 			//e.printStackTrace();
+			result = null;
+		} catch(InvalidResultFMException e) {
+			//e.printStackTrace();
+			result = null;
 		}
-		
-		
 		return result;
 	}
 

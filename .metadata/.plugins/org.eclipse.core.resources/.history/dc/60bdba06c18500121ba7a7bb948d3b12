@@ -1,0 +1,40 @@
+package Network.FromMaster;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+
+import Network.Protocols.ProtocolPart;
+
+public class PartResponse {
+	
+	private Socket mSocket;
+	
+	public PartResponse(Socket client) {
+		mSocket = client;
+	}
+
+	public boolean sendResponse(boolean isOK) {
+		
+		boolean response = false;
+		
+		try {
+			DataOutputStream mOutput = new DataOutputStream(mSocket.getOutputStream());
+			if(response) {
+				mOutput.writeBytes(ProtocolPart.SLAVE_OK
+						+ ProtocolPart.COMMON_END_LINE);
+			} else {
+				mOutput.writeBytes(ProtocolPart.SLAVE_KO
+						+ ProtocolPart.COMMON_END_LINE);
+			}
+			mOutput.flush();
+			//mOutput.close();
+			mSocket.shutdownOutput();
+		} catch (IOException e) {
+			//e.printStackTrace();
+			response = false;
+		}
+		
+		return response;
+	}
+}

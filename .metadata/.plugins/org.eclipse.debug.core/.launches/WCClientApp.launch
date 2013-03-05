@@ -7,5 +7,6 @@
 <listEntry value="1"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="Application.WCClientApp"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-f machin.txt -j machin -ma localhost -mp 4545"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="WCClient"/>
 </launchConfiguration>

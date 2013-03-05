@@ -1,7 +1,6 @@
 package Network.FromMaster;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,12 +15,14 @@ import System.Utils;
 public class PartAnalyzer {
 	
 	private Socket mSocket;
+	private int mJobId;
 	
-	public PartAnalyzer(Socket client) {
+	public PartAnalyzer(Socket client, int jobId) {
 		mSocket = client;
+		mJobId = jobId;
 	}
 
-	public Part handleQuery() {	
+	public Part handlePart() {	
 			
 		Part result = null;
 		String masterQuery;
@@ -31,7 +32,6 @@ public class PartAnalyzer {
 		try {
 			BufferedReader mInput = new BufferedReader(
 					new InputStreamReader(mSocket.getInputStream()));
-			DataOutputStream mOutput = new DataOutputStream(mSocket.getOutputStream());
 			masterQuery = mInput.readLine();
 
 			if (masterQuery != null
@@ -58,54 +58,41 @@ public class PartAnalyzer {
 					}
 				}
 				
-			} else {
-				isSuccess = false;
-			}
-
-			if (isSuccess) {
-				try {
-					result = new Part(aMap);
+				if(isSuccess) {
+					result = new Part(aMap, mJobId);
 					if(result.getPartSize() != 0) {
 						char[] content = new char[result.getPartSize() + 1];
 						mInput.read(content, 0, content.length);
 						
 						File f = Utils.CreateFile(result.getPartPath());
 						if(f == null) {
-							isSuccess = false;
+							result = null;
+						} else {
+							Utils.WriteInFile(f, content, result.getPartSize());
 						}
-						Utils.WriteInFile(f, content, result.getPartSize());
 					} else {
-						isSuccess = false;
+						result = null;
 					}
-					
-				} catch(InvalidPartException e) {
-					isSuccess = false;
 				}
 				
-			}
-			
-			
-			
-			if(isSuccess) {
-				mOutput.writeBytes(ProtocolPart.SLAVE_OK
-						+ ProtocolPart.COMMON_END_LINE);
-			} else {
-				mOutput.writeBytes(ProtocolPart.SLAVE_KO
-						+ ProtocolPart.COMMON_END_LINE);
+			} /* else if(masterQuery != null
+					&& masterQuery.equals(ProtocolPart.MASTER_CHECK_AVAILABILITY)){
+				result = new Part();
+			} */else {
+				result = null;
 			}
 			
 			// Closing and quitting this client.
-			mOutput.flush();
-			mOutput.close();
-			mInput.close();
-			
-			mSocket.close();
+			//mInput.close();
+			mSocket.shutdownInput();
 			
 		} catch (IOException e) {
 			//e.printStackTrace();
+			result = null;
+		} catch (InvalidPartException e) {
+			//e.printStackTrace();
+			result = null;
 		}
-		
-		
 		return result;
 	}
 

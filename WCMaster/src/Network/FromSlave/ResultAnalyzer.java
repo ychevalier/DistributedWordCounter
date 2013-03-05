@@ -1,7 +1,6 @@
 package Network.FromSlave;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,45 +13,45 @@ import Network.Protocols.ProtocolResultFS;
 import System.Utils;
 
 public class ResultAnalyzer {
-	
+
 	private Socket mSocket;
-	
-	public ResultAnalyzer(Socket client) {
+	private int mJobId;
+
+	public ResultAnalyzer(Socket client, int jobId) {
 		mSocket = client;
+		mJobId = jobId;
 	}
 
-	public ResultFS handleResult() {	
-			
+	public ResultFS handleResult() {
+
 		ResultFS result = null;
 		String slaveQuery;
 		HashMap<String, String> aMap = new HashMap<String, String>();
-		boolean isSuccess = true;
+		
 
 		try {
-			BufferedReader mInput = new BufferedReader(
-					new InputStreamReader(mSocket.getInputStream()));
-			DataOutputStream mOutput = new DataOutputStream(mSocket.getOutputStream());
+			boolean isSuccess = true;
+			BufferedReader mInput = new BufferedReader(new InputStreamReader(
+					mSocket.getInputStream()));
 			slaveQuery = mInput.readLine();
 
 			if (slaveQuery != null
 					&& slaveQuery.equals(ProtocolResultFS.SLAVE_SEND_RESULT)) {
-				
 
 				// Go through arguments.
 				for (int i = 0; i < ProtocolResultFS.SLAVE_MAX_ARG_NUMBER; i++) {
-					
-					
+
 					slaveQuery = mInput.readLine();
 					if (slaveQuery != null && !slaveQuery.isEmpty()) {
 						String[] line = slaveQuery.split("\\"
 								+ ProtocolResultFS.COMMON_SEPARATOR);
-						
+
 						// If it doesn't fit the protocol.
 						if (line.length != 2) {
 							isSuccess = false;
 							break;
 						}
-						
+
 						// Otherwise Get the arguments.
 						aMap.put(line[0], line[1]);
 					} else {
@@ -60,52 +59,40 @@ public class ResultAnalyzer {
 						break;
 					}
 				}
-			} else {
-				isSuccess = false;
-			}
 
-			if (isSuccess) {
-				try {
-					result = new ResultFS(aMap);
-					if(result.getResultSize() != 0) {
+				if (isSuccess) {
+					result = new ResultFS(aMap, mJobId);
+					if (result.getResultSize() != 0) {
 						// +1 to get the last character...
 						char[] content = new char[result.getResultSize() + 1];
 						mInput.read(content, 0, content.length);
-						
+
 						File f = Utils.CreateFile(result.getResultPath());
-						if(f == null) {
-							isSuccess = false;
+						if (f == null) {
+							result = null;
+						} else {
+							Utils.WriteInFile(f, content, result.getResultSize());
 						}
-						Utils.WriteInFile(f, content, result.getResultSize());
 					} else {
-						isSuccess = false;
+						result = null;
 					}
-				} catch(InvalidResultFSException e) {
-					isSuccess = false;
 				}
-				
-			}
-			
-			if(isSuccess) {
-				mOutput.writeBytes(ProtocolResultFS.MASTER_OK
-						+ ProtocolResultFS.COMMON_END_LINE);
+
 			} else {
-				mOutput.writeBytes(ProtocolResultFS.MASTER_KO
-						+ ProtocolResultFS.COMMON_END_LINE);
+				result = null;
 			}
-			
+
 			// Closing and quitting this client.
-			mOutput.flush();
-			mOutput.close();
-			mInput.close();
-			
-			mSocket.close();
-			
+			mSocket.shutdownInput();
+
 		} catch (IOException e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
+			result = null;
+		} catch (InvalidResultFSException e) {
+			// e.printStackTrace();
+			result = null;
 		}
-		
-		
+
 		return result;
 	}
 

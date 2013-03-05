@@ -23,6 +23,7 @@ public class QueryServer implements Runnable {
 	@Override
 	public void run() {
 		try {
+			System.out.println("Query Server Listening on " + mPort);
 			mServerSocket = new ServerSocket(mPort); 
 			while (true) {
 				Socket client = mServerSocket.accept();

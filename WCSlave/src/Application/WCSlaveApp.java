@@ -1,6 +1,10 @@
 package Application;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import Network.FromMaster.PartServer;
+import Network.ToMaster.Register;
 import System.Config;
 import System.Utils;
 
@@ -12,6 +16,10 @@ public class WCSlaveApp {
     public static synchronized int getNextFileCount() {
     	return mFileCounter++;
     }
+    
+    public static boolean amIReady() {
+		return true;
+	}
     
     static void initConfigPath() {
     	Config.JUNK_PATH = "slave_" + Config.SLAVE_PORT + "_tmp_files/";
@@ -75,12 +83,44 @@ public class WCSlaveApp {
 	
 	public static void main(String[] args) {
 		
-		if(!simpleCliParser(args)) {
+		try {
+			Config.MY_IP = InetAddress.getLocalHost().toString().split("/")[1];
+			if(!Utils.checkIP(Config.MY_IP)) {
+				System.out.println("Unable to find host address");
+				return;
+			}
+		} catch (UnknownHostException e) {
+			//e.printStackTrace();
+			System.out.println("Unable to find host address");
 			return;
 		}
 		
-		PartServer server = new PartServer();
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+		    public void run() {
+		    	Register reg = new Register();
+				reg.connect(Config.MASTER_IP, Config.MASTER_PORT);
+				if(!reg.unregister()) {
+					System.out.println("Unable to unregister to the master.");
+					return;
+				} 
+				reg.disconnect();
+				System.out.println("Unregistered!");
+		    }
+		 });
+		
+		if(!simpleCliParser(args)) {
+			return;
+		}
 		System.out.println("### Slave ###");
+		Register reg = new Register();
+		reg.connect(Config.MASTER_IP, Config.MASTER_PORT);
+		if(!reg.register()) {
+			System.out.println("Unable to register to the master.");
+			return;
+		} 
+		reg.disconnect();
+		
+		PartServer server = new PartServer();
 		server.launch();
 	}
 

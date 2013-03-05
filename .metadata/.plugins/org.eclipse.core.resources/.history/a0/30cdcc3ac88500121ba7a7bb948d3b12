@@ -1,0 +1,35 @@
+package Controllers;
+
+import java.net.Socket;
+
+import Listeners.PartProcessedListener;
+import Model.ResultFS;
+import Network.FromSlave.ResultAnalyzer;
+
+public class RegisterHandler {
+	
+	private Socket mSocket;
+	
+	public RregisterHandler(Socket client) {
+		mSocket = client;
+	}
+	
+	@Override
+	public void run() {
+		System.out.println("A new slave wants to register");
+		
+		ResultAnalyzer ra = new ResultAnalyzer(mSocket, mJobId);
+		ResultFS aResultFS = ra.handleResult();
+		
+		if(aResultFS == null) {
+			System.out.println("Received a incorrect result, aborting");
+			return;
+		}
+		
+		mListener.partProcessed(aResultFS.getPartNumber(), aResultFS.getResultPath());
+
+		System.out.println("Received a correct result");
+	}
+	
+
+}

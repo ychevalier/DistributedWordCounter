@@ -1,0 +1,54 @@
+package Controllers;
+
+import java.io.IOException;
+import java.net.Socket;
+
+import Application.WCMasterApp;
+import Listeners.RegisterSlaveListener;
+import Model.Slave;
+import Network.FromClient.QueryResponse;
+import Network.FromSlave.RegisterAnalyzer;
+
+public class RegisterHandler implements Runnable {
+	
+	private Socket mSocket;
+	private RegisterSlaveListener mListener;
+	
+	public RegisterHandler(Socket client, RegisterSlaveListener listener) {
+		mSocket = client;
+		mListener = listener;
+	}
+	
+	@Override
+	public void run() {
+		System.out.println("A new slave wants to register");
+		
+		RegisterAnalyzer ra = new RegisterAnalyzer(mSocket);
+		Slave s = ra.handleSlave();
+		
+		RegisterResponse qr = new RegisterResponse(mSocket);
+		boolean response = qr.sendResponse(Slave, WCMasterApp.amIReady());
+		
+		try {
+			mSocket.close();
+		} catch (IOException e) {
+			//e.printStackTrace();
+		}
+		
+		if (!response) {
+			System.out.println("Received a incorrect query, aborting");
+			return;
+		}
+		
+		if(s == null) {
+			System.out.println("Received a incorrect slave, aborting");
+			return;
+		}
+		
+		mListener.addSlave(s);
+
+		System.out.println("The New Slave has been added!");
+	}
+	
+
+}

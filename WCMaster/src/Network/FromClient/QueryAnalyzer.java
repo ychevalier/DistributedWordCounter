@@ -1,7 +1,6 @@
 package Network.FromClient;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,9 +15,11 @@ import System.Utils;
 public class QueryAnalyzer {
 	
 	private Socket mSocket;
+	private int mJobId;
 	
-	public QueryAnalyzer(Socket client) {
+	public QueryAnalyzer(Socket client, int jobId) {
 		mSocket = client;
+		mJobId = jobId;
 	}
 
 	public Query handleQuery() {	
@@ -26,17 +27,17 @@ public class QueryAnalyzer {
 		Query result = null;
 		String clientQuery;
 		HashMap<String, String> aMap = new HashMap<String, String>();
-		boolean isSuccess = true;
 
 		try {
 			BufferedReader mInput = new BufferedReader(
 					new InputStreamReader(mSocket.getInputStream()));
-			DataOutputStream mOutput = new DataOutputStream(mSocket.getOutputStream());
+			
 			clientQuery = mInput.readLine();
 
 			if (clientQuery != null
 					&& clientQuery.equals(ProtocolQuery.CLIENT_SEND_FILE)) {
-
+				
+				boolean isSuccess = true;
 				// Go through arguments.
 				for (int i = 0; i < ProtocolQuery.CLIENT_MAX_ARG_NUMBER; i++) {
 					
@@ -59,13 +60,9 @@ public class QueryAnalyzer {
 						break;
 					}
 				}
-			} else {
-				isSuccess = false;
-			}
-
-			if (isSuccess) {
-				try {
-					result = new Query(aMap);
+				
+				if(isSuccess) {
+					result = new Query(aMap, mJobId);
 					if(result.getFileSize() != 0) {
 						// +1 to get the last character...
 						char[] content = new char[result.getFileSize() + 1];
@@ -73,38 +70,33 @@ public class QueryAnalyzer {
 						
 						File f = Utils.CreateFile(result.getFilePath());
 						if(f == null) {
-							isSuccess = false;
+							result = null;
+						} else {
+							Utils.WriteInFile(f, content, result.getFileSize());
 						}
-						Utils.WriteInFile(f, content, result.getFileSize());
 					} else {
-						isSuccess = false;
+						result = null;
 					}
-					
-				} catch(InvalidQueryException e) {
-					isSuccess = false;
 				}
 				
+			} /*else if(clientQuery != null
+					&& clientQuery.equals(ProtocolQuery.CLIENT_CHECK_AVAILABILITY)){
+				result = new Query();
+			} */else {
+				result = null;
 			}
-			
-			if(isSuccess) {
-				mOutput.writeBytes(ProtocolQuery.MASTER_OK
-						+ ProtocolQuery.COMMON_END_LINE);
-			} else {
-				mOutput.writeBytes(ProtocolQuery.MASTER_KO
-						+ ProtocolQuery.COMMON_END_LINE);
-			}
-			
 			// Closing and quitting this client.
-			mOutput.flush();
-			mOutput.close();
-			mInput.close();
+			//mInput.;
 			
-			mSocket.close();
+			mSocket.shutdownInput();
 			
 		} catch (IOException e) {
 			//e.printStackTrace();
+			result = null;
+		} catch (InvalidQueryException e) {
+			result = null;
+			//e.printStackTrace();
 		}
-		
 		
 		return result;
 	}

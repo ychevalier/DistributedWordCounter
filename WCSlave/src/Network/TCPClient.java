@@ -92,5 +92,4 @@ public class TCPClient {
 		return response;
 
 	}
-
 }

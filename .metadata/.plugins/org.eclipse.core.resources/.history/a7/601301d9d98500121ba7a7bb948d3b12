@@ -1,0 +1,80 @@
+package Model;
+
+import java.util.Map;
+
+import Exceptions.InvalidQueryException;
+import Network.Protocols.ProtocolQuery;
+import System.Config;
+
+public class Slave {
+	
+	private String mIP;
+	private int mPort;
+
+	public Slave(Map<String, String> params) {
+		String tmp;
+		
+		// Result IP.
+		tmp = params.get(ProtocolRegister.CLIENT_RESULT_IP);
+		if(tmp == null || tmp.isEmpty()) {
+			throw new InvalidQueryException();
+		}
+		this.mIP = tmp;
+		
+		// Result Port.
+		tmp = params.get(ProtocolQuery.CLIENT_RESULT_PORT);
+		if(tmp == null || tmp.isEmpty()) {
+			throw new InvalidQueryException();
+		}
+		int tmpInt = 0;
+		try {
+			tmpInt = Integer.decode(tmp);
+		} catch(NumberFormatException e) {
+			throw new InvalidQueryException();
+		}
+		this.mResultPort = tmpInt;
+	}
+	
+	public Slave(String ip, int port) {
+		mIP = ip;
+		mPort = port;
+	}
+	
+	public String getIP() {
+		return mIP;
+	}
+	
+	public int getPort() {
+		return mPort;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((mIP == null) ? 0 : mIP.hashCode());
+		result = prime * result + mPort;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Slave other = (Slave) obj;
+		if (mIP == null) {
+			if (other.mIP != null)
+				return false;
+		} else if (!mIP.equals(other.mIP))
+			return false;
+		if (mPort != other.mPort)
+			return false;
+		return true;
+	}
+	
+	
+}

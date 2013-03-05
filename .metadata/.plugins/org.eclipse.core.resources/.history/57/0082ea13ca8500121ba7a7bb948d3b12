@@ -1,0 +1,39 @@
+package Controllers;
+
+import java.net.Socket;
+
+import Listeners.PartProcessedListener;
+import Listeners.RegisterSlaveListener;
+import Model.ResultFS;
+import Model.Slave;
+import Network.FromSlave.RegisterAnalyzer;
+
+public class RegisterHandler implements Runnable {
+	
+	private Socket mSocket;
+	private RegisterSlaveListener mListener;
+	
+	public RegisterHandler(Socket client, RegisterSlaveListener listener) {
+		mSocket = client;
+		mListener = listener;
+	}
+	
+	@Override
+	public void run() {
+		System.out.println("A new slave wants to register");
+		
+		RegisterAnalyzer ra = new RegisterAnalyzer(mSocket);
+		Slave s = ra.handleSlave();
+		
+		if(s == null) {
+			System.out.println("Received a incorrect slave, aborting");
+			return;
+		}
+		
+		mListener.addSlave(s);
+
+		System.out.println("The New Slave has been added!");
+	}
+	
+
+}

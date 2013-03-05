@@ -1,0 +1,7 @@
+package Listeners;
+
+public interface RegisterSlaveListener {
+
+	public void addSlave(Slave s);
+	
+}

@@ -25,24 +25,32 @@ public class WordCounter {
 		
 		System.out.println("Starting Processing...");
 		
-		Scanner sc2 = null;
-	    try {
-	        sc2 = new Scanner(new File(mInputFile));
-	    } catch (FileNotFoundException e) {
-	        e.printStackTrace();  
-	    }
-	    while (sc2.hasNextLine()) {
-	            Scanner s2 = new Scanner(sc2.nextLine());
-	        while (s2.hasNext()) {
-	            String s = s2.next();
-	            if (index.containsKey(s)) {
-					index.put(s, index.get(s) + 1);
-				} else {
-					index.put(s, 1);
+		try {
+			Scanner sc = new Scanner(new File(mInputFile));
+			String sCurrentLine;
+			while (sc.hasNextLine()) {
+				sCurrentLine = sc.nextLine();
+				StringBuilder currentString = new StringBuilder();
+				for (int i = 0; i < sCurrentLine.length(); i++) {
+					if ((sCurrentLine.charAt(i) >= 'a' && sCurrentLine.charAt(i) <= 'z')
+							|| (sCurrentLine.charAt(i) >= 'A' && sCurrentLine.charAt(i) <= 'Z')) {
+						currentString.append(sCurrentLine.charAt(i));
+					} else if(currentString.length() != 0){
+						if (index.containsKey(currentString.toString())) {
+							index.put(currentString.toString(),
+									index.get(currentString.toString()) + 1);
+						} else {
+							index.put(currentString.toString(), 1);
+						}
+						currentString.setLength(0);
+					}
 				}
-	        }
-	    }
-	    
+			}
+		} catch (FileNotFoundException e) {
+			//e.printStackTrace();
+		}
+		System.out.println("Finished Processing");
+		
 	    StringBuilder content = new StringBuilder();
 	    for(Map.Entry<String, Integer> e : index.entrySet()) {
 	    	content.append(e.getKey());

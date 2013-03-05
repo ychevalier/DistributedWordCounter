@@ -52,5 +52,4 @@ public class ResultFM {
 	public int getResultSize() {
 		return mResultSize;
 	}
-
 }

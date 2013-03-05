@@ -28,5 +28,12 @@ public class ResultServer implements Runnable {
 			//e.printStackTrace();
 		}
 	}
-
+	
+	public void stopMe() {
+		try{
+			mServerSocket.close();
+		} catch(IOException e) {
+			// DO Nothing!
+		}
+	}
 }

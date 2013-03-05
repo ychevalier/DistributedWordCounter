@@ -2,8 +2,13 @@ package System;
 
 public class Config {
 	
-	public static final String MASTER_IP = "localhost";
-	public static final int MASTER_PORT = 4242;
+	public static String JOB_NAME;
+	public static String FILE_PATH;
+	
+	public static String MY_IP;
+
+	public static String MASTER_IP;// = "localhost";
+	public static int MASTER_PORT;// = 4545;
 	
 	public static final String RESULT_PATH = "results/";
 	
