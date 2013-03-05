@@ -71,7 +71,6 @@ public class JobHandler implements Runnable, PartProcessedListener {
 		part = 43;
 		mWorkingSlaves.put(part, s2);
 		System.out.println("Sending a part to a new slave");
-		//PartSender ps2 = new PartSender();
 		ps.connect(s2.getIP(), s2.getPort());
 		// ps.checkAvailability();
 		ps.sendPart(mQuery.getFilename(), part, mQuery.getFilePath(),
