@@ -95,10 +95,16 @@ public class JobHandler implements Runnable, PartProcessedListener {
 		WordCounter.countToWordList(filename, mFinalResult);
 		
 		if(mWorkingSlaves.isEmpty()) {
-			System.out.println("Sending result to client");
+			String finalPath = Config.FINAL_RESULT + mQuery.getFilename() + '_' + mJobId;
+			
+			System.out.println("Writing File");
+			mFinalResult.toFile(finalPath);
+			
 			ResultSender rs = new ResultSender();
 			rs.connect(mQuery.getResultIP(), mQuery.getResultPort());
-			rs.sendResult(mQuery.getFilename(), mFinalResult);
+			rs.sendResult(mQuery.getFilename(), finalPath);
+
+			
 			rs.disconnect();
 		}
 		

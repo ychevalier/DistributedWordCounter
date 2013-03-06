@@ -1,6 +1,7 @@
 package Network.ToClient;
 
-import Model.WordList;
+import java.io.File;
+
 import Network.TCPClient;
 import Network.Protocols.ProtocolResultFM;
 
@@ -31,20 +32,20 @@ public class ResultSender {
 		}
 	}
 	
-	
-	
-	public boolean sendResult(String fileName, WordList list) {
+	public boolean sendResult(String fileName, String filepath) {
 		
 		if(!mIsConnected
-				|| list == null) {
+				|| filepath == null
+				|| filepath.isEmpty()) {
 			
 			return false;
 		}
 		
-		String content = list.toString();
-	    
-		
-		long fileSize = content.length();
+		File fileToSend = new File(filepath);
+		if(!fileToSend.exists()) {
+			return false;
+		}
+		long fileSize = fileToSend.length();
 		
 		final StringBuilder query = new StringBuilder();
 		
@@ -62,8 +63,9 @@ public class ResultSender {
 		
 		final StringBuilder footer = new StringBuilder(ProtocolResultFM.COMMON_END_LINE);
 		
-		final String response = mNetClient.sendData(query.append(content).append(footer).toString());
+		final String response = mNetClient.sendFile(query.toString(), fileToSend, footer.toString());
 		//String toSend = query.append(content).append(footer).toString();
+		//System.out.println(toSend);
 		//final String response = mNetClient.sendData(toSend);
 		
 		if(ProtocolResultFM.CLIENT_OK.equals(response)) {

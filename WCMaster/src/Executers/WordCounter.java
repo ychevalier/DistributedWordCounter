@@ -22,6 +22,7 @@ public class WordCounter {
 						+ ProtocolResultFM.WORD_COUNT_SEPARATOR);
 				if (line.length == 2) {
 					list.addWord(line[0], new Integer(line[1]).intValue());
+					//System.out.println(line[0] + " "+ new Integer(line[1]).intValue());
 				}
 			}
 		} catch (FileNotFoundException e) {
