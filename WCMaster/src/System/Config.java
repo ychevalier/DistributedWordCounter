@@ -8,6 +8,8 @@ public class Config {
 	
 	public static final String FILE_PATH = "files_to_split/";
 	
+	public static final String PART_PATH = "file_parts/";
+	
 	public static final String RESULT_PATH = "result_parts/";
 	
 	public static final String FINAL_RESULT = "results/";

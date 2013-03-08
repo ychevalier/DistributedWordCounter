@@ -1,0 +1,126 @@
+package System;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.ServerSocket;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Utils {
+
+	public static File CreateFile(String filepath) {
+		File f = new File(filepath);
+		f.mkdirs();
+		try {
+			f.createNewFile();
+		} catch (IOException e) {
+			f = null;
+		}
+		return f;
+	}
+
+	public static void WriteInFile(File file, char[] textToSave, int filesize) {
+
+		file.delete();
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(file),
+					filesize);
+			out.write(textToSave);
+			out.close();
+		} catch (IOException e) {
+		}
+	}
+
+	public static String[] SplitFile(String filename, String filepath,
+			int noFile, String outputPath) {
+
+		int BUF_FSIZE = 1024;
+		String[] frgfName = new String[noFile];
+
+		try {
+			File source = new File(filepath);
+			FileInputStream fileToSplit = new FileInputStream(source);
+			
+			long approxSize = (int)source.length()/noFile;
+			if(approxSize < BUF_FSIZE) {
+				BUF_FSIZE = approxSize;
+			}
+
+			for (int i = 0; i < noFile; i++) {
+				frgfName[i] = outputPath + '/' + filename + '_'
+						+ String.valueOf(i);
+				File outFile = CreateFile(frgfName[i]);
+
+				FileOutputStream fos = new FileOutputStream(outFile);
+				byte[] data = new byte[BUF_FSIZE];
+				int sum = 0;
+				int count = 0;
+				do {
+					count = fileToSplit.read(data);
+					sum += count;
+					fos.write(data);
+				} while(count != -1 || sum - approxSize < BUF_FSIZE );
+				
+				fos.close();
+			}
+			fileToSplit.close();
+		} catch (Exception e) {
+			System.out.println("Error in Splitting" + e);
+			frgfName = null;
+		}
+		return frgfName;
+	}
+
+	private static final String PATTERN = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+
+	public static boolean checkIP(String ip) {
+		if (ip == null) {
+			return false;
+		} else if (ip.equals("localhost")) {
+			return true;
+		}
+		Pattern pattern = Pattern.compile(PATTERN);
+		Matcher matcher = pattern.matcher(ip);
+		return matcher.matches();
+	}
+
+	public static boolean isAvailable(int port) {
+		if (port < Config.RESULT_MIN_PORT_NUMBER
+				|| port > Config.RESULT_MAX_PORT_NUMBER) {
+			throw new IllegalArgumentException("Invalid start port: " + port);
+		}
+
+		ServerSocket ss = null;
+		DatagramSocket ds = null;
+		try {
+			ss = new ServerSocket(port);
+			ss.setReuseAddress(true);
+			ds = new DatagramSocket(port);
+			ds.setReuseAddress(true);
+			return true;
+		} catch (IOException e) {
+		} finally {
+			if (ds != null) {
+				ds.close();
+			}
+
+			if (ss != null) {
+				try {
+					ss.close();
+				} catch (IOException e) {
+					/* should not be thrown */
+				}
+			}
+		}
+
+		return false;
+	}
+}

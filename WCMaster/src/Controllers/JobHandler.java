@@ -72,19 +72,23 @@ public class JobHandler implements Runnable, PartProcessedListener {
 		tR.start();
 
 		List<Slave> availableSlaves = WCMasterApp.mSlaveList.getSlaves();
+		
+		String[] parts = Utils.SplitFile(mQuery.getFilename(), mQuery.getFilePath(), availableSlaves.size(), Config.PART_PATH + mQuery.getFilename() + '_' + mJobId + '/');
+		
 		PartSender ps = new PartSender();
-		for (Slave s : availableSlaves) {
-			int part = 42;
-			mWorkingSlaves.put(part, s);
+
+		for (int i = 0; i < parts.length; i++) {
+			//int part = 42;
+			Slave s = availableSlaves.get(i);
+			mWorkingSlaves.put(i, s);
 			System.out.println("Sending a part to a new slave");
 			
 			if(!ps.connect(s.getIP(), s.getPort())) {
 				WCMasterApp.mSlaveList.removeSlave(s);
 			} else {
-				ps.sendPart(mQuery.getFilename(), part, mQuery.getFilePath(), Config.MY_IP, portForThisJob, 2);
+				ps.sendPart(mQuery.getFilename(), i, parts[i], Config.MY_IP, portForThisJob, 2);
 				ps.disconnect();
 			}
-
 		}
 	}
 

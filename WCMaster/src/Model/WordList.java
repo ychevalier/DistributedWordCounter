@@ -28,7 +28,7 @@ public class WordList {
 		return mMap;
 	}
 	
-	public void toFile(String path) {
+	public synchronized void toFile(String path) {
 		//char[] s = toString().toCharArray();
 		File f = Utils.CreateFile(path);
 		if (f != null) {
