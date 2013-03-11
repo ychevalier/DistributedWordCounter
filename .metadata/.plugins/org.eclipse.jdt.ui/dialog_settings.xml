@@ -13,12 +13,13 @@
 		<item value="false" key="OmitCallToSuper"/>
 	</section>
 	<section name="FatJarPackageWizard">
-		<item value="/Users/ychevalier/Dropbox/Documents/Cours/Bham/Networks/Project/Exes/WCSlave.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
-		<item value="WCSlaveApp - WCSlave" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
+		<item value="/Users/ychevalier/Dropbox/Documents/Cours/Bham/Networks/Project/Exes/WCMaster.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
+		<item value="WCMasterApp - WCMaster" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
 		<item value="/Users/ychevalier/Code/Java/SimpleWordCounter" key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION"/>
 		<item value="false" key="FatJarPackageWizardPage.ANTSCRIPT_SAVE"/>
 		<item value="1" key="FatJarPackageWizardPage.LIBRARY_HANDLING"/>
 		<list key="FatJarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="/Users/ychevalier/Dropbox/Documents/Cours/Bham/Networks/Project/Exes/WCMaster.jar"/>
 			<item value="/Users/ychevalier/Dropbox/Documents/Cours/Bham/Networks/Project/Exes/WCSlave.jar"/>
 			<item value="/Users/ychevalier/Dropbox/Documents/Cours/Bham/Networks/Project/Exes/WCClient.jar"/>
 			<item value="/Users/ychevalier/Dropbox/Documents/Cours/Bham/Networks/Project/WCSlave.jar"/>

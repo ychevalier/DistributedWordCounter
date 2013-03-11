@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="Network.ToSlave.PartSender"/>
-<fullyQualifiedTypeName name="Network.Protocols.ProtocolQuery"/>
-<fullyQualifiedTypeName name="Network.ToMaster.ResultSender"/>
 <fullyQualifiedTypeName name="Controllers.SlaveHandler"/>
 <fullyQualifiedTypeName name="Exceptions.InvalidResultFSException"/>
 <fullyQualifiedTypeName name="Network.FromSlave.ResultAnalyzer"/>
@@ -60,4 +57,7 @@
 <fullyQualifiedTypeName name="java.lang.SuppressWarnings"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
+<fullyQualifiedTypeName name="java.io.FileInputStream"/>
+<fullyQualifiedTypeName name="java.io.FileOutputStream"/>
+<fullyQualifiedTypeName name="Network.ToSlave.PartSender"/>
 </qualifiedTypeNameHistroy>

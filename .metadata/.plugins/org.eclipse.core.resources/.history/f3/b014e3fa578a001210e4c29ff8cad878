@@ -30,56 +30,11 @@ public class WCMasterApp {
 	public static boolean amIReady() {
 		return !mSlaveList.isEmpty();
 	}
-	
-static boolean simpleCliParser(String [] args) {
-    	
-    	boolean isError = false;
-    	
-    	if(args.length != 4) {
-    		isError = true;
-    	} else {	
-	    	for(int x = 0; x < args.length; x++){
-	    		if("-pq".equals(args[x])){
-	    	    	try {
-	    	            Config.MASTER_PORT = Integer.parseInt(args[x + 1]);
-	    	        } catch (NumberFormatException e) {
-	    	            System.out.println("Master query port must be an integer.");
-	    	            isError = true;
-	    	            break;
-	    	        }
-	    	        x++;
-	    	    }  else if("-pr".equals(args[x])){
-	    	    	try {
-	    	            Config.MASTER_REGISTER_PORT = Integer.parseInt(args[x + 1]);
-	    	        } catch (NumberFormatException e) {
-	    	            System.out.println("Master registering port must be an integer.");
-	    	            isError = true;
-	    	            break;
-	    	        }
-	    	        x++;
-	    	    } else {
-	    	    	isError = true;
-	    	    	System.out.println("Wrong argument.");
-	    	    	break;
-	    	    }
-	    	}
-    	}
-
-    	if(isError) {
-    		System.out.println("Usage: COMMAND -pq <query_server_port> -pr <register_server_port>");
-    	}
-    	
-    	return !isError;
-    }
 
 	public static void main(String[] args) {
 
 		System.out.println("### Master ###");
 
-		if(!simpleCliParser(args)) {
-			return;
-		}
-		
 		try {
 			Config.MY_IP = InetAddress.getLocalHost().toString().split("/")[1];
 			if (!Utils.checkIP(Config.MY_IP)) {

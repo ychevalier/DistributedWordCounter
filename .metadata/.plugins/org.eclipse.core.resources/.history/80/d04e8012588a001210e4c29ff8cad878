@@ -1,5 +1,6 @@
 package Application;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -35,7 +36,7 @@ static boolean simpleCliParser(String [] args) {
     	
     	boolean isError = false;
     	
-    	if(args.length != 4) {
+    	if(args.length != 2) {
     		isError = true;
     	} else {	
 	    	for(int x = 0; x < args.length; x++){
@@ -43,16 +44,16 @@ static boolean simpleCliParser(String [] args) {
 	    	    	try {
 	    	            Config.MASTER_PORT = Integer.parseInt(args[x + 1]);
 	    	        } catch (NumberFormatException e) {
-	    	            System.out.println("Master query port must be an integer.");
+	    	            System.out.println("Remote master port must be an integer.");
 	    	            isError = true;
 	    	            break;
 	    	        }
 	    	        x++;
-	    	    }  else if("-pr".equals(args[x])){
+	    	    }  else if("-pq".equals(args[x])){
 	    	    	try {
-	    	            Config.MASTER_REGISTER_PORT = Integer.parseInt(args[x + 1]);
+	    	            Config.MASTER_PORT = Integer.parseInt(args[x + 1]);
 	    	        } catch (NumberFormatException e) {
-	    	            System.out.println("Master registering port must be an integer.");
+	    	            System.out.println("Remote master port must be an integer.");
 	    	            isError = true;
 	    	            break;
 	    	        }
@@ -66,7 +67,7 @@ static boolean simpleCliParser(String [] args) {
     	}
 
     	if(isError) {
-    		System.out.println("Usage: COMMAND -pq <query_server_port> -pr <register_server_port>");
+    		System.out.println("Usage: COMMAND -f <path_of_file_to_send> -j <job_name> -ma <remote_master_ip> -mp <remote_master_port>");
     	}
     	
     	return !isError;
@@ -76,10 +77,6 @@ static boolean simpleCliParser(String [] args) {
 
 		System.out.println("### Master ###");
 
-		if(!simpleCliParser(args)) {
-			return;
-		}
-		
 		try {
 			Config.MY_IP = InetAddress.getLocalHost().toString().split("/")[1];
 			if (!Utils.checkIP(Config.MY_IP)) {

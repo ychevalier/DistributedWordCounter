@@ -2,9 +2,9 @@ package System;
 
 public class Config {
 
-	public static int MASTER_PORT;// = 4545;
+	public static int MASTER_PORT = 4545;
 	
-	public static int MASTER_REGISTER_PORT;// = 4646;
+	public static int MASTER_REGISTER_PORT = 4646;
 	
 	public static final String FILE_PATH = "files_to_split/";
 	
