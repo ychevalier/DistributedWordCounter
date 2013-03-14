@@ -10,7 +10,7 @@ import Network.Protocols.ProtocolResultFM;
 
 public class ResultResponse {
 	
-private Socket mSocket;
+	private Socket mSocket;
 	
 	public ResultResponse(Socket client) {
 		mSocket = client;

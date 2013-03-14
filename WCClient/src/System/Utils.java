@@ -1,8 +1,6 @@
 package System;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
@@ -21,7 +19,7 @@ public class Utils {
 		}
 		return f;
 	}
-	
+	/*
 	public static void WriteInFile(File file, char[] textToSave, int filesize) {
 
 	    file.delete();
@@ -32,7 +30,7 @@ public class Utils {
 	    } catch (IOException e) {
 	    }
 	}
-	
+	*/
 	private static final String PATTERN = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
 			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
 			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."

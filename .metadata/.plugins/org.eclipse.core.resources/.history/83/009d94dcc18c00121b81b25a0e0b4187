@@ -1,0 +1,139 @@
+package Controllers;
+
+import java.io.IOException;
+import java.net.Socket;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import Application.WCMasterApp;
+import Executers.WordCounter;
+import Listeners.PartProcessedListener;
+import Model.Query;
+import Model.Slave;
+import Model.WordList;
+import Network.FromClient.QueryAnalyzer;
+import Network.FromClient.QueryResponse;
+import Network.FromSlave.ResultServer;
+import Network.ToClient.ResultSender;
+import Network.ToSlave.PartSender;
+import System.Config;
+import System.Utils;
+
+public class JobHandler implements Runnable, PartProcessedListener {
+
+	private Socket mSocket;
+	private Map<Integer, Slave> mWorkingSlaves;
+	private WordList mFinalResult;
+	private Query mQuery;
+	private int mJobId;
+	
+	private Object mLock;
+
+	public JobHandler(Socket client) {
+		mSocket = client;
+		mWorkingSlaves = new TreeMap<Integer, Slave>();
+		mFinalResult = new WordList();
+		mJobId = WCMasterApp.getFileCount();
+		mLock = new Object();
+	}
+
+	@Override
+	public void run() {
+
+		System.out.println("Handling a new Client");
+
+		// Getting & Parsing the query.
+		QueryAnalyzer qh = new QueryAnalyzer(mSocket, mJobId);
+		mQuery = qh.handleQuery();
+		
+		QueryResponse qr = new QueryResponse(mSocket);
+		boolean response = qr.sendResponse(mQuery, WCMasterApp.amIReady());
+		
+		try {
+			mSocket.close();
+		} catch (IOException e) {
+			//e.printStackTrace();
+		}
+		
+		
+		if (!response) {
+			System.out.println("Received a incorrect query, aborting");
+			return;
+		}
+
+		System.out.println("Received a correct query");
+
+		int portForThisJob;
+
+		do {
+			portForThisJob = WCMasterApp.getResultPortCount();
+		} while (!Utils.isAvailable(portForThisJob));
+
+		System.out.println("Launching Result Server on port : "
+				+ portForThisJob);
+		Thread tR = new Thread(new ResultServer(portForThisJob, this, mJobId));
+		tR.start();
+
+		List<Slave> availableSlaves = WCMasterApp.mSlaveList.getSlaves();
+		
+		String[] parts = Utils.SplitFile(mQuery.getFilename(), mQuery.getFilePath(), availableSlaves.size(), Config.PART_PATH + mQuery.getFilename() + '_' + mJobId + '/');
+		
+		PartSender ps = new PartSender();
+
+		for (int i = 0; i < parts.length; i++) {
+			//int part = 42;
+			Slave s = availableSlaves.get(i);
+			mWorkingSlaves.put(i, s);
+			System.out.println("Sending a part to a new slave");
+			
+			if(!ps.connect(s.getIP(), s.getPort())) {
+				WCMasterApp.mSlaveList.removeSlave(s);
+			} else {
+				ps.sendPart(mQuery.getFilename(), i, parts[i], Config.MY_IP, portForThisJob, 2);
+				ps.disconnect();
+			}
+		}
+		
+		synchronized (mLock) {
+		    try {
+				mLock.wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		String finalPath = Config.FINAL_RESULT + mQuery.getFilename() + '_' + mJobId;
+		
+		System.out.println("Writing File");
+		mFinalResult.toFile(finalPath);
+		
+		ResultSender rs = new ResultSender();
+		rs.connect(mQuery.getResultIP(), mQuery.getResultPort());
+		rs.sendResult(mQuery.getFilename(), finalPath);
+		
+		rs.disconnect();
+		
+	}
+
+	@Override
+	public void partProcessed(int part, String filename) {
+		mWorkingSlaves.remove(part); 
+		synchronized (mFinalResult) {
+		    try {
+				mFinalResult.wait();
+				WordCounter.countToWordList(filename, mFinalResult);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		if(mWorkingSlaves.isEmpty()) {
+			synchronized (mLock) {
+				mLock.notify();
+			}
+		}
+	}
+}

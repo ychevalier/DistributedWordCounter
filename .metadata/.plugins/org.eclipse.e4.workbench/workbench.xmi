@@ -88,7 +88,7 @@
                   <children xsi:type="advanced:Placeholder" xmi:id="_Kg25LXn_EeKR1txnNuMq-g" elementId="org.eclipse.ant.ui.views.AntView" toBeRendered="false" ref="_Kg0c4Hn_EeKR1txnNuMq-g"/>
                 </children>
               </children>
-              <children xsi:type="basic:PartStack" xmi:id="_Kg25Lnn_EeKR1txnNuMq-g" elementId="bottom" containerData="2500" selectedElement="_Kg25M3n_EeKR1txnNuMq-g">
+              <children xsi:type="basic:PartStack" xmi:id="_Kg25Lnn_EeKR1txnNuMq-g" elementId="bottom" containerData="2500" selectedElement="_rKy2QYy3EeKRTI2yWoMp4g">
                 <tags>newtablook</tags>
                 <tags>org.eclipse.e4.secondaryDataStack</tags>
                 <children xsi:type="advanced:Placeholder" xmi:id="_Kg25L3n_EeKR1txnNuMq-g" elementId="org.eclipse.ui.views.ProblemView" ref="_KglzY3n_EeKR1txnNuMq-g"/>
@@ -98,6 +98,7 @@
                 <children xsi:type="advanced:Placeholder" xmi:id="_Kg25M3n_EeKR1txnNuMq-g" elementId="org.eclipse.ui.console.ConsoleView" ref="_KgnokXn_EeKR1txnNuMq-g"/>
                 <children xsi:type="advanced:Placeholder" xmi:id="_Kg25NHn_EeKR1txnNuMq-g" elementId="org.eclipse.ui.views.BookmarkView" toBeRendered="false" ref="_KgoPoHn_EeKR1txnNuMq-g"/>
                 <children xsi:type="advanced:Placeholder" xmi:id="_Kg25NXn_EeKR1txnNuMq-g" elementId="org.eclipse.ui.views.ProgressView" toBeRendered="false" ref="_KgoPoXn_EeKR1txnNuMq-g"/>
+                <children xsi:type="advanced:Placeholder" xmi:id="_rKy2QYy3EeKRTI2yWoMp4g" elementId="org.eclipse.jdt.callhierarchy.view" ref="_rKy2QIy3EeKRTI2yWoMp4g"/>
               </children>
             </children>
           </children>
@@ -240,7 +241,7 @@
       <tags>categoryTag:General</tags>
     </sharedElements>
     <sharedElements xsi:type="basic:Part" xmi:id="_KglzY3n_EeKR1txnNuMq-g" elementId="org.eclipse.ui.views.ProblemView" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Problems" iconURI="platform:/plugin/org.eclipse.ui.ide//icons/full/eview16/problems_view.gif" tooltip="0 items" closeable="true">
-      <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;view PRIMARY_SORT_FIELD=&quot;org.eclipse.ui.ide.severityAndDescriptionField&quot; categoryGroup=&quot;org.eclipse.ui.ide.severity&quot; markerContentGenerator=&quot;org.eclipse.ui.ide.problemsGenerator&quot; partName=&quot;Problems&quot;>&#xA;&lt;expanded>&#xA;&lt;category IMemento.internal.id=&quot;Warnings (1 item)&quot;/>&#xA;&lt;/expanded>&#xA;&lt;columnWidths org.eclipse.ui.ide.locationField=&quot;90&quot; org.eclipse.ui.ide.markerType=&quot;90&quot; org.eclipse.ui.ide.pathField=&quot;120&quot; org.eclipse.ui.ide.resourceField=&quot;90&quot; org.eclipse.ui.ide.severityAndDescriptionField=&quot;300&quot;/>&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.severityAndDescriptionField&quot;/>&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.resourceField&quot;/>&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.pathField&quot;/>&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.locationField&quot;/>&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.markerType&quot;/>&#xA;&lt;/view>"/>
+      <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;view PRIMARY_SORT_FIELD=&quot;org.eclipse.ui.ide.severityAndDescriptionField&quot; categoryGroup=&quot;org.eclipse.ui.ide.severity&quot; markerContentGenerator=&quot;org.eclipse.ui.ide.problemsGenerator&quot; partName=&quot;Problems&quot;>&#xA;&lt;expanded>&#xA;&lt;category IMemento.internal.id=&quot;Warnings (5 items)&quot;/>&#xA;&lt;/expanded>&#xA;&lt;columnWidths org.eclipse.ui.ide.locationField=&quot;90&quot; org.eclipse.ui.ide.markerType=&quot;90&quot; org.eclipse.ui.ide.pathField=&quot;120&quot; org.eclipse.ui.ide.resourceField=&quot;90&quot; org.eclipse.ui.ide.severityAndDescriptionField=&quot;300&quot;/>&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.severityAndDescriptionField&quot;/>&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.resourceField&quot;/>&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.pathField&quot;/>&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.locationField&quot;/>&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.markerType&quot;/>&#xA;&lt;/view>"/>
       <tags>View</tags>
       <tags>categoryTag:General</tags>
       <menus xmi:id="_KtGlYHn_EeKR1txnNuMq-g" elementId="org.eclipse.ui.views.ProblemView">
@@ -360,6 +361,16 @@
     <sharedElements xsi:type="basic:Part" xmi:id="_geDTwHoAEeKop47i8nJ8lw" elementId="org.eclipse.search.SearchResultView" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Classic Search" iconURI="platform:/plugin/org.eclipse.search//icons/full/eview16/searchres.gif" closeable="true">
       <tags>View</tags>
       <tags>categoryTag:General</tags>
+    </sharedElements>
+    <sharedElements xsi:type="basic:Part" xmi:id="_rKy2QIy3EeKRTI2yWoMp4g" elementId="org.eclipse.jdt.callhierarchy.view" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Call Hierarchy" iconURI="platform:/plugin/org.eclipse.jdt.ui//icons/full/eview16/call_hierarchy.gif" tooltip="Call Hierarchy" closeable="true">
+      <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;view search_scope_type=&quot;1&quot;/>"/>
+      <tags>View</tags>
+      <tags>categoryTag:Java</tags>
+      <menus xmi:id="_rLpx4Iy3EeKRTI2yWoMp4g" elementId="org.eclipse.jdt.callhierarchy.view">
+        <tags>ViewMenu</tags>
+        <tags>menuContribution:menu</tags>
+      </menus>
+      <toolbar xmi:id="_rLpx4Yy3EeKRTI2yWoMp4g" elementId="org.eclipse.jdt.callhierarchy.view" visible="false"/>
     </sharedElements>
     <trimBars xmi:id="_KdL6EHn_EeKR1txnNuMq-g" elementId="org.eclipse.ui.main.toolbar"/>
     <trimBars xmi:id="_Kw_m4Hn_EeKR1txnNuMq-g" elementId="org.eclipse.ui.trim.status" side="Bottom">

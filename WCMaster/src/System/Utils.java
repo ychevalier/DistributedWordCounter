@@ -1,10 +1,8 @@
 package System;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
@@ -17,14 +15,15 @@ public class Utils {
 		File f = new File(filepath);
 		f.mkdirs();
 		try {
-			f.delete();
+			//f.delete();
 			f.createNewFile();
 		} catch (IOException e) {
 			f = null;
+			e.printStackTrace();
 		}
 		return f;
 	}
-
+	/*
 	public static void WriteInFile(File file, char[] textToSave, int filesize) {
 
 		file.delete();
@@ -32,23 +31,30 @@ public class Utils {
 			BufferedWriter out = new BufferedWriter(new FileWriter(file),
 					filesize);
 			out.write(textToSave);
+			out.flush();
 			out.close();
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
-
+	*/
 	public static String[] SplitFile(String filename, String filepath,
 			int noFile, String outputPath) {
 
 		int MIN_BUF_SIZE = 128;
 		int BUF_FSIZE = 1024;
-		String[] frgfName = new String[noFile];
+		
+		File source = new File(filepath);
+		int actualNumFile = noFile;
+		if(source.length() < BUF_FSIZE) {
+			actualNumFile = 1;
+		}
+		String[] frgfName = new String[actualNumFile];
 
 		try {
-			File source = new File(filepath);
 			FileInputStream fileToSplit = new FileInputStream(source);
 
-			int approxSize = (int) source.length() / noFile;
+			int approxSize = (int) source.length() / actualNumFile;
 
 			if (approxSize < MIN_BUF_SIZE) {
 				approxSize = MIN_BUF_SIZE;
@@ -60,9 +66,10 @@ public class Utils {
 			int offset = -1;
 			byte[] data = new byte[BUF_FSIZE];
 			
-			for (int i = 0; i < noFile; i++) {
+			for (int i = 0; i < actualNumFile; i++) {
 				frgfName[i] = outputPath + String.valueOf(i);
 				File outFile = CreateFile(frgfName[i]);
+				outFile.delete();
 				FileOutputStream fos = new FileOutputStream(outFile);
 				
 				int sum = approxSize;
@@ -81,7 +88,7 @@ public class Utils {
 						break;
 					}
 					fos.write(data, 0, count);
-					if(i != noFile - 1) {
+					if(i != actualNumFile - 1) {
 						sum -= count;
 					}
 				}
@@ -98,6 +105,7 @@ public class Utils {
 				}
 
 				fos.close();
+				fos.flush();
 			}
 			fileToSplit.close();
 		} catch (Exception e) {

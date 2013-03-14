@@ -27,12 +27,15 @@ public class JobHandler implements Runnable, PartProcessedListener {
 	private WordList mFinalResult;
 	private Query mQuery;
 	private int mJobId;
+	
+	private Object mLock;
 
 	public JobHandler(Socket client) {
 		mSocket = client;
 		mWorkingSlaves = new TreeMap<Integer, Slave>();
 		mFinalResult = new WordList();
 		mJobId = WCMasterApp.getFileCount();
+		mLock = new Object();
 	}
 
 	@Override
@@ -52,6 +55,7 @@ public class JobHandler implements Runnable, PartProcessedListener {
 		} catch (IOException e) {
 			//e.printStackTrace();
 		}
+		
 		
 		if (!response) {
 			System.out.println("Received a incorrect query, aborting");
@@ -90,27 +94,38 @@ public class JobHandler implements Runnable, PartProcessedListener {
 				ps.disconnect();
 			}
 		}
+		
+		synchronized (mLock) {
+		    try {
+				mLock.wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		String finalPath = Config.FINAL_RESULT + mQuery.getFilename() + '_' + mJobId;
+		
+		System.out.println("Writing File");
+		mFinalResult.toFile(finalPath);
+		
+		ResultSender rs = new ResultSender();
+		rs.connect(mQuery.getResultIP(), mQuery.getResultPort());
+		rs.sendResult(mQuery.getFilename(), finalPath);
+		
+		rs.disconnect();
+		
 	}
 
 	@Override
-	public void partProcessed(int part, String filename) {
+	public synchronized void partProcessed(int part, String filename) {
 		mWorkingSlaves.remove(part); 
-		
-		WordCounter.countToWordList(filename, mFinalResult);
-		
-		if(mWorkingSlaves.isEmpty()) {
-			String finalPath = Config.FINAL_RESULT + mQuery.getFilename() + '_' + mJobId;
-			
-			System.out.println("Writing File");
-			mFinalResult.toFile(finalPath);
-			
-			ResultSender rs = new ResultSender();
-			rs.connect(mQuery.getResultIP(), mQuery.getResultPort());
-			rs.sendResult(mQuery.getFilename(), finalPath);
 
-			
-			rs.disconnect();
+		WordCounter.countToWordList(filename, mFinalResult);
+		if(mWorkingSlaves.isEmpty()) {
+			synchronized (mLock) {
+				mLock.notify();
+			}
 		}
-		
 	}
 }

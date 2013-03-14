@@ -1,5 +1,0 @@
-package Network.FromSlave;
-
-public class RegisterResponse {
-
-}

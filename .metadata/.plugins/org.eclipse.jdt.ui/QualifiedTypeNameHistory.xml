@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="Controllers.SlaveHandler"/>
-<fullyQualifiedTypeName name="Exceptions.InvalidResultFSException"/>
 <fullyQualifiedTypeName name="Network.FromSlave.ResultAnalyzer"/>
 <fullyQualifiedTypeName name="Network.FromSlave.ResultServer"/>
 <fullyQualifiedTypeName name="Application.WCServerApp"/>
@@ -11,7 +9,6 @@
 <fullyQualifiedTypeName name="java.util.Scanner"/>
 <fullyQualifiedTypeName name="java.io.FileNotFoundException"/>
 <fullyQualifiedTypeName name="Network.Protocols.Protocol"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="Network.FromServer.ResultAnalyzer"/>
 <fullyQualifiedTypeName name="java.util.TreeMap"/>
 <fullyQualifiedTypeName name="Network.ToClient.ResultSender"/>
@@ -52,7 +49,6 @@
 <fullyQualifiedTypeName name="Network.FromServer.ResultResponse"/>
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="java.net.InetAddress"/>
-<fullyQualifiedTypeName name="System.Config"/>
 <fullyQualifiedTypeName name="java.lang.Deprecated"/>
 <fullyQualifiedTypeName name="java.lang.SuppressWarnings"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
@@ -60,4 +56,8 @@
 <fullyQualifiedTypeName name="java.io.FileInputStream"/>
 <fullyQualifiedTypeName name="java.io.FileOutputStream"/>
 <fullyQualifiedTypeName name="Network.ToSlave.PartSender"/>
+<fullyQualifiedTypeName name="java.lang.NumberFormatException"/>
+<fullyQualifiedTypeName name="System.Config"/>
+<fullyQualifiedTypeName name="java.util.Collections"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
 </qualifiedTypeNameHistroy>

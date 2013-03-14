@@ -1,8 +1,6 @@
 package System;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,7 +9,7 @@ public class Utils {
 
 	public static File CreateFile(String filepath) {
 		File f = new File(filepath);
-		//f.mkdirs();
+		f.mkdirs();
 		try {
 			f.createNewFile();
 		} catch (IOException e) {
@@ -20,6 +18,7 @@ public class Utils {
 		return f;
 	}
 	
+	/*
 	public static void WriteInFile(File file, char[] textToSave, int filesize) {
 
 	    file.delete();
@@ -30,7 +29,7 @@ public class Utils {
 	    } catch (IOException e) {
 	    }
 	}
-	
+	*/
 	private static final String PATTERN = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
 			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
 			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."

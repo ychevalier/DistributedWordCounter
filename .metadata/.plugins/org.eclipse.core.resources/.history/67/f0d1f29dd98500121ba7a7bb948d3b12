@@ -1,9 +1,0 @@
-package Listeners;
-
-import Model.Slave;
-
-public interface RegisterSlaveListener {
-
-	public void addSlave(Slave s);
-	
-}

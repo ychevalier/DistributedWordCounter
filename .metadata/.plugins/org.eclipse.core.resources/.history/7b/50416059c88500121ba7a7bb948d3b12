@@ -1,6 +1,0 @@
-package Listeners;
-
-public class RegisterSlaveListener {
-
-	public void addSlave(Slave s);
-}

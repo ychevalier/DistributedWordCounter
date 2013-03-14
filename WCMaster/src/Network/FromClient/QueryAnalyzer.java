@@ -1,7 +1,9 @@
 package Network.FromClient;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
@@ -10,6 +12,7 @@ import java.util.HashMap;
 import Exceptions.InvalidQueryException;
 import Model.Query;
 import Network.Protocols.ProtocolQuery;
+import System.Config;
 import System.Utils;
 
 public class QueryAnalyzer {
@@ -64,15 +67,31 @@ public class QueryAnalyzer {
 				if(isSuccess) {
 					result = new Query(aMap, mJobId);
 					if(result.getFileSize() != 0) {
-						// +1 to get the last character...
-						char[] content = new char[result.getFileSize() + 1];
-						mInput.read(content, 0, content.length);
+						
 						
 						File f = Utils.CreateFile(result.getFilePath());
 						if(f == null) {
 							result = null;
 						} else {
-							Utils.WriteInFile(f, content, result.getFileSize());
+					
+							int filesize = result.getFileSize() + 1;
+							char[] content = new char[Config.NETWORK_BUFFER_SIZE];
+							
+							f.delete();
+							BufferedWriter out = null;
+
+							out = new BufferedWriter(new FileWriter(f));
+
+							
+							int count = 0;
+							while ((count = mInput.read(content)) > 0 && filesize > 0)
+							{
+							  out.write(content, 0, count);
+							  filesize -= count;
+							}
+
+							out.flush();
+							out.close();
 						}
 					} else {
 						result = null;

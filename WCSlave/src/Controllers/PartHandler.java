@@ -48,13 +48,9 @@ public class PartHandler implements Runnable {
 		// TODO Set a thread which send repeated alive messages to master.
 		
 		WordCounter wordCount = new WordCounter(aPart.getPartPath(), outputPath);
-		try {
-			wordCount.count();
-		} catch(IOException e) {
-			System.out.println("Error : Could not write in output file, Aborting");
-			return;
-		}
-		
+
+		wordCount.count();
+	
 		System.out.println("Sending Result to Master at " + aPart.getResultIP() + ':' + aPart.getResultPort());
 		
 		ResultSender ps = new ResultSender();

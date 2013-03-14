@@ -14,5 +14,7 @@ public class Config {
 	
 	public static final int RESULT_MIN_PORT_NUMBER = 2222;
 	public static final int RESULT_MAX_PORT_NUMBER = 4444;
+	
+	public static final int NETWORK_BUFFER_SIZE = 2048;
 
 }

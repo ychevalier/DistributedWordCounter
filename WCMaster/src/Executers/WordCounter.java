@@ -21,11 +21,15 @@ public class WordCounter {
 				String[] line = sCurrentLine.split("\\"
 						+ ProtocolResultFM.WORD_COUNT_SEPARATOR);
 				if (line.length == 2) {
-					list.addWord(line[0], new Integer(line[1]).intValue());
+					if(line[0] != null && !line[0].isEmpty()) {
+						list.addWord(line[0], new Integer(line[1]).intValue());
+					}
 					//System.out.println(line[0] + " "+ new Integer(line[1]).intValue());
 				}
 			}
 		} catch (FileNotFoundException e) {
+			//e.printStackTrace();
+		} catch (NumberFormatException e) {
 			//e.printStackTrace();
 		}
 		System.out.println("Finished Processing");

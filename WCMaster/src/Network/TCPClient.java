@@ -10,9 +10,9 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import System.Config;
+
 public class TCPClient {
-	
-	private static final int MAX_OUTPUT_BUFFER = 2048;
 	
 	private Socket mSocket;
 
@@ -49,11 +49,10 @@ public class TCPClient {
 			BufferedReader inFromServer = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));
 			
 			outToServer.writeBytes(toSend);
+			mSocket.shutdownOutput();
 	        response = inFromServer.readLine();
-	        
-	        outToServer.flush();
-	        outToServer.close();
-	        inFromServer.close();
+	        mSocket.shutdownInput();
+
 		} catch (IOException e) {
 			//e.printStackTrace();
 		} 
@@ -69,22 +68,19 @@ public class TCPClient {
 			BufferedReader inFromServer = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));
 		    FileInputStream fileInputStream = new FileInputStream(file);
 		    
-		    byte[] buffer = new byte[MAX_OUTPUT_BUFFER];
+		    byte[] buffer = new byte[Config.NETWORK_BUFFER_SIZE];
 		    int bytesRead = 0;
 		    
 		    output.write(header.getBytes());
 
-		    while((bytesRead = fileInputStream.read(buffer))>0) {
+		    while((bytesRead = fileInputStream.read(buffer, 0, buffer.length))>0) {
 		        output.write(buffer,0,bytesRead);
 		    }
 		    
 		    output.write(footer.getBytes());
-		    
+		    mSocket.shutdownOutput();
 		    response = inFromServer.readLine();
-		    
-		    output.flush();
-		    output.close();
-		    inFromServer.close();
+		    mSocket.shutdownInput();
 		    fileInputStream.close();
 		} catch (IOException e) {
 			//e.printStackTrace();

@@ -1,7 +1,9 @@
 package Network.FromMaster;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
@@ -10,6 +12,7 @@ import java.util.HashMap;
 import Exceptions.InvalidPartException;
 import Model.Part;
 import Network.Protocols.ProtocolPart;
+import System.Config;
 import System.Utils;
 
 public class PartAnalyzer {
@@ -59,16 +62,32 @@ public class PartAnalyzer {
 				}
 				
 				if(isSuccess) {
+
 					result = new Part(aMap, mJobId);
 					if(result.getPartSize() != 0) {
-						char[] content = new char[result.getPartSize() + 1];
-						mInput.read(content, 0, content.length);
 						
 						File f = Utils.CreateFile(result.getPartPath());
 						if(f == null) {
 							result = null;
 						} else {
-							Utils.WriteInFile(f, content, result.getPartSize());
+							
+							int filesize = result.getPartSize() + 1;
+							char[] content = new char[Config.NETWORK_BUFFER_SIZE];
+							
+							f.delete();
+							BufferedWriter out = null;
+
+							out = new BufferedWriter(new FileWriter(f));
+							
+							int count = 0;
+							while ((count = mInput.read(content)) > 0 && filesize > 0)
+							{
+							  out.write(content, 0, count);
+							  filesize -= count;
+							}
+
+							out.flush();
+							out.close();
 						}
 					} else {
 						result = null;
